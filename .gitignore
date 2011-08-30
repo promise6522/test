@@ -1,5 +1,12 @@
+# common files
+*.swp
+
 #for project msgpack_vs_pb
 #  ignore protobu generated files
 msgpack_vs_pb/protobuf_gen/*
 #  ignore binary
 msgpack_vs_pb/bin/*
+
+# for erlang projects
+*.beam
+*.dump
