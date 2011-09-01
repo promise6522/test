@@ -1,5 +1,5 @@
 -module(lib_misc).
--export([on_exit/2]).
+-export([on_exit/2, keep_alive/2]).
 
 on_exit(Pid, Fun) ->
     spawn(fun() -> 
@@ -11,3 +11,6 @@ on_exit(Pid, Fun) ->
                 end
         end).
 
+keep_alive(Name, Fun) ->
+    register(Name, Pid = spawn(Fun)),
+    on_exit(Pid, fun(_Why) -> keep_alive(Name, Fun) end).
