@@ -1,0 +1,16 @@
+-module(name_server).
+-export([init/0, add/2, whereis/1, error/0, handle/2]).
+-import(server2, [rpc/2]).
+
+%% client routines
+add(Name, Place) -> rpc(name_server, {add, Name, Place}).
+whereis(Name)    -> rpc(name_server, {whereis, Name}).
+error()            -> rpc(name_server, {error}).
+
+%% callback routines
+init() -> dict:new().
+
+handle({add, Name, Place}, Dict) -> {ok, dict:store(Name, Place, Dict)};
+handle({whereis, Name}, Dict)    -> {dict:find(Name, Dict), Dict};
+handle({error}, Dict)            -> {1/0, dict:new()}.
+
