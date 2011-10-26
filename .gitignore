@@ -1,4 +1,5 @@
 # common files
+a.out
 *.swp
 
 #for project msgpack_vs_pb
@@ -10,3 +11,7 @@ msgpack_vs_pb/bin/*
 # for erlang projects
 *.beam
 *.dump
+
+# for bdb_test
+bdb_test/data/*
+
