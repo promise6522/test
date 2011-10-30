@@ -1,6 +1,7 @@
 # common files
 a.out
 *.swp
+bin/
 
 #for project msgpack_vs_pb
 #  ignore protobu generated files
