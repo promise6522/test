@@ -1,3 +1,4 @@
+#include <signal.h>
 #include <ctime>
 #include <iostream>
 #include <string>
@@ -7,6 +8,15 @@
 #include <boost/asio.hpp>
 
 using boost::asio::ip::tcp;
+
+int handledConnections = 0;
+
+// On capture SIGINT, print the total num of accpeted connections
+void on_sig_int(int sig)
+{
+    std::cout << "Total handled connections: " << handledConnections << std::endl;
+    exit(0);
+}
 
 std::string make_daytime_string()
 {
@@ -56,6 +66,7 @@ private:
             size_t bytes_transffered)
     {
         std::cout << bytes_transffered << " bytes transffered." << std::endl;
+        handledConnections++;
     }
 
     tcp::socket socket_;
@@ -70,6 +81,11 @@ public:
         : acceptor_(io_service, tcp::endpoint(tcp::v4(), 13))
     {
         start_accept();
+    }
+
+    ~tcp_server()
+    {
+        std::cout << "Total handled connections: " << handledConnections << std::endl;
     }
 
 private:
@@ -101,6 +117,8 @@ private:
 
 int main()
 {
+    signal(SIGINT, on_sig_int);
+    
     try
     {
         boost::asio::io_service io_service;
@@ -111,6 +129,7 @@ int main()
     {
         std::cerr << e.what() << std::endl;
     }
+
 
     return 0;
 }
