@@ -29,7 +29,7 @@ end
 if is_dir
   Find.find(ARGV[0]) do | path |
       # see if matches file pattern
-      if path.match($SrcPattern)
+      unless path.match($SrcPattern)
         puts "Ignore non-source fie : #{path}"
         next
       end
@@ -37,7 +37,7 @@ if is_dir
       # check only regular file
       if File.stat(path).file?
         line = File.open(path).readlines.size
-        puts path + " " + line.to_s
+        puts path.ljust(73, " ") + line.to_s.rjust(6, " ")
         total += line
       end
   end
