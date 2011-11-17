@@ -29,7 +29,7 @@ const uint32_t DB_ENV_CACHESIZE = 500 * 1024 * 1024;  //specify a 500-MB cache s
 const char* DB_FILE_NAME = "./test.db";         //the default name for the dbfile
 const char* DB_DATABASE_NAME = 0;               //we use the default databse in a dbfile
 
-const uint32_t DB_FLAGS = DB_CREATE | DB_AUTO_COMMIT | DB_MULTIVERSION;
+const uint32_t DB_FLAGS = DB_CREATE | DB_AUTO_COMMIT;// | DB_MULTIVERSION;
 const uint32_t DB_MODE = 0;
 
 
@@ -73,29 +73,29 @@ int main()
 
         
     // we can specify DB_CXX_NO_EXCEPTIONS here
-    struct timeval tm1, tm2;
-    gettimeofday(&tm1, NULL);
+//    struct timeval tm1, tm2;
+//    gettimeofday(&tm1, NULL);
     
-    int db_count = 10000;
-    for (int i = 0; i < db_count; ++i)
-    {
-        char file_name[10];
-        sprintf(file_name, "%08d.db", i);
-        //std::ostringstream oss;
-        //oss << i << ".db";
-        //std::string file_name = oss.str();
-
-        Db db(&env, 0);
-        DbTxn* txn = NULL;
-        db.open(txn, file_name, DB_DATABASE_NAME, DB_BTREE, DB_FLAGS, DB_MODE);
-    }
-    gettimeofday(&tm2, NULL);
-    std::cout << "db_count : " << db_count << ", sec : " << tm2.tv_sec - tm1.tv_sec << ", usec = " << tm2.tv_usec - tm1.tv_usec << std::endl;
+// test db creation performance
+//    int db_count = 10000;
+//    for (int i = 0; i < db_count; ++i)
+//    {
+//        char file_name[10];
+//        sprintf(file_name, "%08d.db", i);
+//        //std::ostringstream oss;
+//        //oss << i << ".db";
+//        //std::string file_name = oss.str();
+//
+//        Db db(&env, 0);
+//        DbTxn* txn = NULL;
+//        db.open(txn, file_name, DB_DATABASE_NAME, DB_BTREE, DB_FLAGS, DB_MODE);
+//    }
+//    gettimeofday(&tm2, NULL);
+//    std::cout << "db_count : " << db_count << ", sec : " << tm2.tv_sec - tm1.tv_sec << ", usec = " << tm2.tv_usec - tm1.tv_usec << std::endl;
 
 
     Db db(&env, 0);
-    DbTxn* txn = NULL;
-    db.open(txn, DB_FILE_NAME, DB_DATABASE_NAME, DB_BTREE, DB_FLAGS, DB_MODE);
+    db.open(NULL, DB_FILE_NAME, DB_DATABASE_NAME, DB_BTREE, DB_FLAGS, DB_MODE);
 
     // ======== Do some operations on the DB =========
     
@@ -145,24 +145,72 @@ int main()
     assert(0 == db_write(db, "hello", "world"));
     std::cout << "## Reset database end ##" << std::endl;
 
-    DbTxn *txn1 = NULL, *txn2 = NULL;
+    // TIME START
+    struct timeval tm1;
+    gettimeofday(&tm1, NULL);
 
-    env.txn_begin(NULL, &txn2, 0);//DB_TXN_SNAPSHOT);
-    assert(0 == db_write(db, "hello", "world2", txn2, 0));
+    // see page count
+    DbTxn *txn = NULL;
+    env.txn_begin(NULL, &txn, 0);
+//    int write_count = 100000;
+//
+//
+//    for (int i = 0; i < write_count; ++i)
+//    {
+//        // 32-byte Key
+//        char key_buf[33];
+//        sprintf(key_buf, "%032d", i);
+//        std::string keystr;
+//        keystr.assign(key_buf, 32);
+//        // 32-byte Val
+//        std::string datastr = "01234567890abcdef";
+//        datastr.append(datastr);
+//
+//        assert(0 == db_write(db, keystr, datastr, txn, 0));
+//    }
+//    txn->commit(0);
+    assert(0 == db_read(db, "hello", strval, txn, 0));
+    
+    // open a child txn for write
+    DbTxn *txn_child = NULL;
+    env.txn_begin(txn, &txn_child, 0);
+    assert(0 == db_write(db, "hello", "newval", txn_child, 0));
+    assert(0 == db_read(db, "hello", strval, txn, 0));
+    txn_child->commit(0);
+    assert(0 == db_read(db, "hello", strval, txn, 0));
+    txn->abort();
 
-    env.txn_begin(NULL, &txn1, DB_TXN_SNAPSHOT);
-    assert(0 == db_read(db, "hello", strval, txn1, 0));
 
-    txn2->commit(0);
 
-    assert(0 == db_read(db, "hello", strval, txn1, 0));
-    txn1->commit(0);
+
+    // snapshot test
+    DbTxn *txn1 = NULL, *txn2 = NULL, *txn3 = NULL;
+//
+//    env.txn_begin(NULL, &txn1, 0);//DB_TXN_SNAPSHOT);
+//    assert(0 == db_write(db, "hello", "world2", txn1, 0));
+//
+//    env.txn_begin(NULL, &txn2, DB_TXN_SNAPSHOT);
+//    assert(0 == db_read(db, "hello", strval, txn2, 0));
+//
+//    txn1->commit(0);
+//
+//    env.txn_begin(NULL, &txn3, DB_TXN_SNAPSHOT);
+//    assert(0 == db_read(db, "hello", strval, txn3, 0));
+//    txn3->commit(0);
+//
+//    assert(0 == db_read(db, "hello", strval, txn2, 0));
+//    txn2->commit(0);
 
     // ===============================================
 
 
     db.close(0);
     env.close(DB_FORCESYNC);
+
+    // TIME END
+    struct timeval tm2;
+    gettimeofday(&tm2, NULL);
+    std::cout << "sec : " << tm2.tv_sec - tm1.tv_sec << ", usec = " << tm2.tv_usec - tm1.tv_usec << std::endl;
 
     return 0;
 }
@@ -176,7 +224,10 @@ int db_write(Db& db, const std::string& key, const std::string& val, DbTxn* txn,
 
     // Debug
     if (ret == 0)
-        std::cout << "Successful write : key = " << key << " , data = " << val << std::endl;
+    {
+        uint32_t txnid = txn ? txn->id() : 0;
+        printf("Write  : key = %s , data = %s , txn = 0x%x\n", key.c_str(), val.c_str(), txnid);
+    }
 
     return ret;
 }
@@ -196,7 +247,10 @@ int db_read(Db& db, const std::string& key, std::string& val, DbTxn* txn, uint32
 
     // Debug
     if (ret == 0)
-        std::cout << "Successful read : key = " << key << " , data = " << val << std::endl;
+    {
+        uint32_t txnid = txn ? txn->id() : 0;
+        printf("Read  : key = %s , data = %s , txn = 0x%x\n", key.c_str(), val.c_str(), txnid);
+    }
 
     return ret;
 }
