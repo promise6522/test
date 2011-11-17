@@ -29,7 +29,10 @@ const uint32_t DB_ENV_CACHESIZE = 500 * 1024 * 1024;  //specify a 500-MB cache s
 const char* DB_FILE_NAME = "./test.db";         //the default name for the dbfile
 const char* DB_DATABASE_NAME = 0;               //we use the default databse in a dbfile
 
-const uint32_t DB_FLAGS = DB_CREATE | DB_AUTO_COMMIT;// | DB_MULTIVERSION;
+//const uint32_t DB_FLAGS = DB_CREATE | DB_AUTO_COMMIT;
+//const uint32_t DB_FLAGS = DB_CREATE | DB_AUTO_COMMIT | DB_MULTIVERSION;
+const uint32_t DB_FLAGS = DB_CREATE | DB_AUTO_COMMIT | DB_READ_UNCOMMITTED;
+
 const uint32_t DB_MODE = 0;
 
 
@@ -149,42 +152,40 @@ int main()
     struct timeval tm1;
     gettimeofday(&tm1, NULL);
 
-    // see page count
     DbTxn *txn = NULL;
-    env.txn_begin(NULL, &txn, 0);
-//    int write_count = 100000;
-//
-//
-//    for (int i = 0; i < write_count; ++i)
-//    {
-//        // 32-byte Key
-//        char key_buf[33];
-//        sprintf(key_buf, "%032d", i);
-//        std::string keystr;
-//        keystr.assign(key_buf, 32);
-//        // 32-byte Val
-//        std::string datastr = "01234567890abcdef";
-//        datastr.append(datastr);
-//
-//        assert(0 == db_write(db, keystr, datastr, txn, 0));
-//    }
-//    txn->commit(0);
-    assert(0 == db_read(db, "hello", strval, txn, 0));
-    
-    // open a child txn for write
-    DbTxn *txn_child = NULL;
-    env.txn_begin(txn, &txn_child, 0);
-    assert(0 == db_write(db, "hello", "newval", txn_child, 0));
-    assert(0 == db_read(db, "hello", strval, txn, 0));
-    txn_child->commit(0);
-    assert(0 == db_read(db, "hello", strval, txn, 0));
-    txn->abort();
+//    env.txn_begin(NULL, &txn, 0);
+//    assert(0 == db_read(db, "hello", strval, txn, 0));
+//    
+//    // open a child txn for write
+//    DbTxn *txn_child = NULL;
+//    env.txn_begin(txn, &txn_child, 0);
+//    assert(0 == db_write(db, "hello", "newval", txn_child, 0));
+//    assert(0 == db_read(db, "hello", strval, txn, 0));
+//    txn_child->commit(0);
+//    assert(0 == db_read(db, "hello", strval, txn, 0));
+//    txn->abort();
 
 
 
 
-    // snapshot test
+
+    // read uncommitted test
     DbTxn *txn1 = NULL, *txn2 = NULL, *txn3 = NULL;
+
+    env.txn_begin(NULL, &txn1, DB_READ_UNCOMMITTED);
+    //assert(0 == db_read(db, "hello", strval, txn1, 0));
+    //assert(0 == db_write(db, "hello", "txn1", txn1, 0));
+
+    env.txn_begin(NULL, &txn2, 0);
+    assert(0 == db_write(db, "hello", "txn2", txn2, 0));
+    
+    assert(0 == db_read(db, "hello", strval, txn1, 0));
+
+    txn2->commit(0);
+
+    assert(0 == db_read(db, "hello", strval, txn1, 0));
+
+    txn1->commit(0);
 //
 //    env.txn_begin(NULL, &txn1, 0);//DB_TXN_SNAPSHOT);
 //    assert(0 == db_write(db, "hello", "world2", txn1, 0));
