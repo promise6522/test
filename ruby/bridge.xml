@@ -1,0 +1,1126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DUCDefinition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="duc.xsd"
+	namespace="com.duketechnology.platform.bridge" destination="src/"
+	cppfile="META-INF/duc.h" docpath="doc/">
+	<doc>
+		=========================================================================
+		The following defines all the basic member formats to be used in
+		this
+		specification. The most basic ones are system defined, they
+		are the
+		following:
+		boolean: 1 bit long
+		integer: 8 bytes long, (long long in ANSI C)
+		float: 8 bytes long, (double in ANSI C)
+		string: variable length, UTF-encoded
+		byteArray: variable length, uninterpreted
+		=========================================================================
+	</doc>
+	<builtin name="boolean" />
+	<builtin name="float" />
+	<builtin name="integer" />
+	<builtin name="byteArray" />
+	<builtin name="string" />
+
+	<type name="TAbstractVisible">
+		<doc> This is the abstract type for all the visible elements that
+			make up the client side tree. It is empty. It has only two subtypes:
+			the primitives and the cells.
+		</doc>
+	</type>
+
+	<type name="TColor">
+		TColor is used to encapsulate the RGB color .a-define the transparency 
+		of the color ,and the default value is 255 which means that the color is opaque.
+		<entry name="r" type="integer" defaultValue="0" />
+		<entry name="g" type="integer" defaultValue="0" />
+		<entry name="b" type="integer" defaultValue="0" />
+		<entry name="a" type="integer" defaultValue="255" />
+	</type>
+
+	<type name="TPoint">
+		TPoint is used to encapsulate a point in a plane, both of the default 
+		value of x and y are 0(also the minimum),the maximum is 10000.
+		<entry name="x" type="integer" defaultValue="0" />
+		<entry name="y" type="integer" defaultValue="0" />
+	</type>
+
+	<enum name="TValueType">
+		<member name="ValueType_Fixed" />
+		<member name="ValueType_Free" />
+		<member name="ValueType_Tight" />
+	</enum>
+
+	<enum name="TPostionType">
+		TPostionType is used to determine the position relationship between two TPlacement.
+		Example :
+		assuming there are two TPlacement A and B, and the relationship between  their display types is as follows :
+		A(TPlacement)--------
+							|
+							|
+							data(TCell)----
+											|
+											|
+											subNodes(TPlacement[])-----
+																		|
+																		|
+																		B(TPlacement)
+
+		Specifying the position relationship of two TPlacement can be achieved by specifying _In for suffix. 
+		e.g. if we want to specify that the center of B is on the center of A ,we can specify TPostionType_Center_In for 
+		the position relationship,and set the B's position as  -width / 2,-height / 2 for x,y; if the position relationship 
+		between A and B is not as above ,we can specify _out for the suffix.
+
+		<member name="TPostionType_Left_Up_In" />
+		<member name="TPostionType_Right_Up_In" />
+		<member name="TPostionType_Left_Down_In" />
+		<member name="TPostionType_Right_Down_In" />
+		<member name="TPostionType_Center_In" />
+		<member name="TPostionType_Left_Up_Out" />
+		<member name="TPostionType_Right_Up_Out" />
+		<member name="TPostionType_Left_Down_Out" />
+		<member name="TPostionType_Right_Down_Out" />
+		<member name="TPostionType_Center_Out" />
+	</enum>
+
+	<type name="TSize">
+		TSize is used to encapsulate the width and height of a single display element,
+		default value (also the maximum ) is 10000 for both ,minimum is 0.
+		<entry name="width" type="integer" defaultValue="10000" />
+		<entry name="height" type="integer" defaultValue="10000" />
+	</type>
+	
+	<type name="TTransformation">
+		TTransformation is a transformation matrix , and it's dimension is the same as the objects it uses .
+		the transformation from (x,y) to (x`,y`)is as follows :
+		
+		x`   scaleX shearX offsetX   x
+		y` = shearY scaleY offsetY * y
+		0      0       0     1       1
+
+		==>
+		
+		x` = scaleX * x + shearX * y + offsetX
+		y` = shearY * x + scaleY * y + offsetY
+
+		<entry name="scaleX" type="integer" defaultValue="10000">
+		
+			scaleX means the x coordinate of scaling matrix element , 
+			 when x is less than 10000 ,it means zoom out
+			 when x is more than 10000 , it means zoom in
+			 when x is equal to 10000, it means no change
+		 
+		</entry>
+		
+		<entry name="scaleY" type="integer" defaultValue="10000">
+			scaleY means the y coordinate of scaling matrix element , 
+			 when y is less than 10000 ,it means zoom in
+			 when y is more than 10000 , it means zoom out 
+			 when y is equal to 10000, it means no change
+		</entry>
+		
+		<entry name="shearX" type="integer" defaultValue="0">
+			shearX means x coordinate of shearing matrix element
+		</entry>
+		
+		<entry name="shearY" type="integer" defaultValue="0">
+			shearY means y coordinate of shearing matrix element
+		</entry>
+		
+		<entry name="offsetX" type="integer" defaultValue="0">
+			offsetX means x coordinate of translation matrix elements
+		</entry>
+		
+		<entry name="offsetY" type="integer" defaultValue="0">
+			offsetY means y coordinate of translation matrix elements
+		</entry>
+	</type>
+
+	<type name="TColorGradient"> 
+	    the gradient
+		<entry name="type" type="TInterpolatedCalcModeType"
+			defaultValue="TInterpolatedCalcModeType.Interpolation_Linear" >type of interpolation</entry>
+			
+		<entry name="values" type="TColor" isArray="true">
+			the starting color and end color of the gradient
+		</entry>
+		
+		<entry name="keys" type="TPoint" isArray="true">
+			the starting point and end point of the gradient
+		</entry>
+		
+		<entry name="keySplines" type="integer" isArray="true" >the control points when use Bézier spline</entry>
+	</type>
+
+	<enum name="CursorType">
+		the type of mouse 
+		
+		<member name="Default_Cursor" />
+		<member name="Text_Cursor" />
+		<member name="Crosshair_Cursor" />
+		<member name="Hand_Cursor" />
+		<member name="Drag_Cursor" />
+		<member name="Drop_Cursor" />
+		<member name="NoDrop_Cursor" />
+		<member name="Wait_Cursor" />
+		<member name="IDle_Cursor" />
+
+		<member name="Custom_Cursor " />
+	</enum>
+
+	<type name="TPath">
+		TPath is used to encapsulate an array of integers ,which records the
+		route of a display element on a tree.
+		example:
+		if a display element A's route is [0,0,2] then it's father's route is [0,0]
+		<entry name="node" type="integer" isArray="true" />
+	</type>
+
+	<enum name="TDashPattern">
+	
+		TDashPattern defines the type of dotted line
+		
+		<member name="none" />
+		<member name="s_common" />
+		<member name="m_common" />
+		<member name="l_common" />
+		<member name="s_dot_dash" />
+		<member name="m_dot_dash" />
+		<member name="l_dot_dash" />
+	</enum>
+	<type name="TPenStroke">
+	
+		TPenStroke is used to set the property of stroke
+		
+		<entry name="width" type="integer" defaultValue="0" />
+		<entry name="dashPattern" type="TDashPattern" defaultValue="TDashPattern.none" />
+	</type>
+
+	<enum name="TFontName">
+	
+		the type of Font family 
+		
+		<member name="Dialog" />
+		<member name="SansSerif" />
+		<member name="Serif" />
+		<member name="Monospaced" />
+		<member name="DialogInput" />
+	</enum>
+
+	<type name="TFont">
+	
+		TFont is used to set the property of font
+		
+		<entry name="name" type="TFontName" defaultValue="TFontName.Serif" />
+		<entry name="style" type="integer" defaultValue="1" />
+		<entry name="size" type="integer" defaultValue="12" />
+	</type>
+
+	<enum name="TCurveType">
+	
+	    the type of curve
+	    
+		<member name="Curve_QUAD" />
+		<member name="Curve_CUBIC" />
+		<member name="Curve_LINE" />
+		<member name="Curve_RECT" />
+		<member name="Curve_ELLIPSE" />
+		<member name="Curve_ARC" />
+		<member name="Curve_CUSTOM" />
+	</enum>
+	<type name="TNone" extends="TAbstractVisible">
+	
+		a placeholder tag,to indicate that a display element is already 
+		exist at the client-end
+		
+	</type>
+	<type name="TLine" extends="TAbstractVisible">
+	
+		primitive duke graphics element ,line
+		
+		<entry name="stroke" type="TPenStroke" />
+		<entry name="color" type="TColor" />
+		<doc>
+			<entry name="colorPaint" type="TColorGradient" />
+		</doc>
+	</type>
+
+	<type name="TEllipse" extends="TAbstractVisible">
+	
+		primitive duke graphics element ,ellipse
+		
+		<entry name="stroke" type="TPenStroke" />
+		<entry name="edgeColor" type="TColor" />
+		<entry name="background" type="TColor" />
+		<entry name="colorPaint" type="TColorGradient" />
+		<entry name="fill" type="boolean" defaultValue="true" />
+	</type>
+
+	<type name="TRectangle" extends="TAbstractVisible">
+	
+		primitive duke graphics element, rectangle
+		
+		<entry name="stroke" type="TPenStroke">set stroke</entry>
+		<entry name="edgeColor" type="TColor">specify the color used when painting</entry>
+		<entry name="background" type="TColor">specify the background color</entry>
+		<entry name="colorPaint" type="TColorGradient">specify the painting color</entry>
+		<entry name="roundRadius" type="integer" defaultValue="0">
+			specify the radius ,the value is relative ,range from 0 to 10000,when the value is 0 ,
+			it means the rectangle is a regular rectangle	
+		</entry>
+		<entry name="fill" type="boolean" defaultValue="true">
+			determine whether to fill the rectangle ,default value is true means fill it
+		</entry>
+	</type>
+
+	<type name="TCurve" extends="TAbstractVisible">
+			primitive duke graphics element
+		<entry name="points" type="TPoint" isArray="true" />
+		<entry name="pointsType" type="boolean" isArray="true" />
+		<entry name="curves" type="TCurve" isArray="true" />
+		<entry name="curveType" type="TCurveType" />
+		<entry name="stroke" type="TPenStroke" />
+		<entry name="color" type="TColor" />
+		<entry name="closed" type="boolean" defaultValue="false" />
+	</type>
+
+	<type name="TGeneralCurve" extends="TAbstractVisible">
+	
+		primitive duke graphics element
+		curve can composed with Linear Bézier curves,Quadratic Bézier curves,Cubic Bézier curves and some other types of curve.
+		simple curve can be defined by specify  series of points and the type of curve.
+		complicated curve can be defined by composing other curves.
+		
+		<entry name="points" type="TPoint" isArray="true" />
+		<entry name="pointsType" type="boolean" isArray="true" />
+		<entry name="curves" type="TGeneralCurve" isArray="true" />
+		<entry name="curveType" type="TCurveType" />
+		<entry name="stroke" type="TPenStroke" />
+		<entry name="color" type="TColor" />
+		<entry name="fillColor" type="TColor" />
+		<entry name="fill" type="boolean" defaultValue="false" />
+		<entry name="closed" type="boolean" defaultValue="false" />
+	</type>
+
+
+	<enum name="CAGType">
+		<member name="CAGType_Add" />
+		<member name="CAGType_Intersect" />
+		<member name="CAGType_Subtract" />
+		<member name="CAGType_ExclusiveOr" />
+	</enum>
+
+
+	<enum name="TShapeType">
+		<member name="Shape_GeneralCurve" />
+		<member name="Shape_Arc" />
+		<member name="Shape_Rectangle" />
+	</enum>
+
+	<type name="TArea" extends="TAbstractVisible">
+	
+	    primitive duke graphics element, area
+	    
+		<entry name="shapeType" type="TShapeType" />
+		<entry name="points" type="TPoint" isArray="true" />
+		<entry name="areaSet" type="TArea" isArray="true" />
+		<entry name="cagType" type="CAGType" />
+		<entry name="background" type="TColor" />
+		<entry name="colorPaint" type="TColorGradient" />
+	</type>
+
+	<enum name="TArcClosedType">
+		<member name="ArcClosedType_CHORD">
+			draw a linear from the start of an arc to the end to close an arc.</member>
+		<member name="ArcClosedType_OPEN">
+			the arc is open without connection between the two end-points.</member>
+		<member name="ArcClosedType_PIE">		
+			both of the end-points of the arc are connected to the center of 
+			the whole ellipse to which the arc is belong by drawing a line.</member>
+	</enum>
+
+	<type name="TArc" extends="TAbstractVisible">
+		<entry name="closedType" type="TArcClosedType" />
+		<entry name="start" type="integer" defaultValue="0" />
+		<entry name="extent" type="integer" defaultValue="0" />
+		<entry name="edgeColor" type="TColor" />
+		<entry name="background" type="TColor" />
+		<entry name="colorPaint" type="TColorGradient" />
+		<entry name="fill" type="boolean" defaultValue="true" />
+	</type>
+
+	<type name="TMargin">
+		<entry name="off_left" type="integer" defaultValue="0" />
+		<entry name="off_right" type="integer" defaultValue="0" />
+		<entry name="off_up" type="integer" defaultValue="0" />
+		<entry name="off_down" type="integer" defaultValue="0" />
+	</type>
+
+	<enum name="LayoutType">
+		how the text is managed in the space
+		<member name="Left" />
+		<member name="Center" />
+		<member name="Right" />
+	</enum>
+
+	<type name="GlyphProperties">
+		the font property
+		<entry name="color" type="TColor" />
+		<entry name="font" type="TFont" />
+		<entry name="point" type="TPoint" />
+	</type>
+
+	<type name="TText" extends="TAbstractVisible">
+	
+		primitive duke graphics element
+		
+		<entry name="text" type="string">the text need to be shown</entry>
+		<entry name="glyphProperties" type="GlyphProperties" isArray="true">
+		the display property for all font , the values in this array will be implemented in order to all font
+		</entry>
+		<entry name="color" type="TColor">
+		set the color of the font ,it's priority is less than GlyphProperties</entry>
+		<entry name="font" type="TFont">
+		set the type of font ,it's priority is less than GlyphProperties</entry>
+		<entry name="margin" type="TMargin">set the gap between font and the space the font is in</entry>
+		<entry name="layout" type="LayoutType" defaultValue="LayoutType.Center">
+		set the position relationship between font and space the font is in</entry>
+		<entry name="localEditable" type="boolean" defaultValue="false">
+		define if the text can be edit at local ,the default value is false meaning editing at local is not supported
+		</entry>
+		<entry name="wraparound" type="boolean" defaultValue="true">
+		define if the text can be wrap automatically ,the default value is true meaning wrapping automatically.
+		</entry>
+	</type>
+
+	<enum name="RelationshipType">
+		<member name="KeepLarge">keep the ratio with the maximum edge</member>
+		<member name="KeepSmall">keep the ratio with the minimum edge</member>
+		<member name="Disrelated">there is no relationship between two edges</member>
+	</enum>
+
+
+	<enum name="ScaleFitType">
+		<member name="Scale_Tile">tile</member>
+		<member name="Scale_Center">place in the middle</member>
+		<member name="Scale_Stretch">stretch</member>
+	</enum>
+
+
+	<type name="ScaleFit">
+		<entry name="scaleFitType" type="ScaleFitType" defaultValue="ScaleFitType.Scale_Center">
+		the way to handle the image,the default value is Scale_Center meaning just place in the middle
+		</entry>
+		<entry name="offOneSide" type="integer" defaultValue="0">the distance from top or left
+		</entry>
+		<entry name="offAnotherSide" type="integer" defaultValue="0">the distance from bottom or right
+		</entry>
+	</type>
+
+	<type name="TImage" extends="TAbstractVisible">
+		primitive duke graphics element,image
+		<entry name="content" type="byteArray">the data flow</entry>
+		<entry name="xDirection" type="ScaleFit">
+		the way to handle the image in x direction,including tiling , placing in the middle ,stretching
+		</entry>
+		<entry name="yDirection" type="ScaleFit">
+		the way to handle the image in y direction,including tiling , placing in the middle ,stretching
+		</entry>
+		<entry name="relationship" type="RelationshipType" defaultValue="RelationshipType.Disrelated">
+			determine whether to keep the ratio between width and height
+		</entry>
+	</type>
+
+	<doc>
+		=========================================================================
+		The following defines the behaviors of the cells:
+		what can happen to a cell (gesture),
+		what to do when a gesture is caught (actions)
+		what to catch and what to let go (behavior)
+		=========================================================================
+	</doc>
+	<enum name="TGestureType">
+		the type of gestures
+
+		<member name="Start">client notify the service that the user has opened the client-end.</member>
+		<member name="PassingIn">indicate the mouse has entered a TCell</member>
+		<member name="PassingOut">indicate the mouse has moved out from the TCell</member>
+		<member name="Hover">the user is focusing on some TCell</member>
+		<member name="Focus">notify the service that some TCell gained a focus</member>
+		<member name="Blur">inform service that some TCell lost the focus</member>
+		<member name="Select">user has chosen some TCell,left click with the modifier ctrl or shift means multiple choice</member>
+		<member name="Unselect">user cancel some TCell</member>
+		<member name="Delete">delete some TCell</member>
+		<member name="Detail">user check out the function of some TCell</member>
+		<member name="Activate">running the function of the TCell</member>
+		<member name="Deactivate">stop some running TCell</member>
+		<member name="DnD_Start">begin dragging</member>
+		<member name="Drag">drag</member>
+		<member name="Grab">grab some TCell</member>
+		<member name="Release">release some TCell</member>
+		<member name="Moving">moving</member>
+		<member name="Input">input from keyboard</member>
+		<member name="In">come into some TCell</member>
+		<member name="Out">get out of some TCell</member>
+		<member name="Enlarge">zoom in some TCell</member>
+		<member name="Shrink">zoom out some TCell</member>
+		<member name="Any">any type</member>
+		<member name="Resize_Start">begin scaling</member>
+		<member name="Resize_Release">end scaling</member>
+		<member name="DnD_Release">end dragging</member>
+		<member name="Wheel_Start">begin scaling</member>
+		<member name="Wheel_Release">end scaling</member>
+		<member name="LDnD_Start">start dragging</member>
+		<member name="LDnD_Release">end dragging</member>
+		<member name="Refresh">
+			notify the service that the client needs to retrieve a TPlacement.
+			When meeting some commands can not be executed , or some placeholder ,the client always send this gesture 
+			in order to get back the TPlacement.
+		</member>
+		<member name="OnPress" />
+	</enum>
+
+	<type name="DependPlatfGestureType">
+		<entry name="id" type="string" />
+		<entry name="gestureType" type="string" isArray="true" />
+	</type>
+
+	<enum name="TModifier">
+		the modifier
+		<member name="Function"></member>
+		<member name="System"></member>
+		<member name="Root"></member>
+		<member name="Subject"></member>
+		<member name="Object"></member>
+		<member name="Lateral"></member>
+		<member name="Angular"></member>
+		<member name="Alternate"></member>
+	</enum>
+
+	<type name="TGesture">
+	
+		encapsulate the information produced by one movement or a series of movements ,the information 
+		includes the gesture type ,abstract modifier ,text may be input , resources,placements.
+		
+		<entry name="type" type="TGestureType">the gesture type</entry>
+		<entry name="platfGestureTypeId" type="string" />
+		<entry name="modifier" type="TModifier" isArray="true">
+			define the modifier the user presses when the gesture is produced.
+		</entry>
+		
+		<entry name="text" type="string">
+			record the text the user input when the gesture is Input.</entry>
+			
+		<entry name="path" type="TPath" isArray="true">
+			the node to which the gesture is placed.When the gesture is DnD,
+			the first path is the path of DnD Target,the second path is the path of DnD Source.
+		</entry>
+		
+		<entry name="positions" type="TPoint" isArray="true">
+			corresponding to the node the path points to ,it is the place where the gesture is.</entry>
+			
+		<entry name="positionOnRoot" type="TPoint" isArray="false">
+			the place where the gesture is , it is relate to the root node.
+		</entry>
+			
+		<entry name="offSet" type="TSize">
+			when the gesture is LDnD_Release,the distance of dragging,the dimension is pixel.
+		</entry>
+			
+		<entry name="resources" type="TResourceUnit" isArray="true">
+			when the gesture is DnD_Release,it indicate a TCell resource dragged from local machine to the client-end
+		</entry>
+		
+		<entry name="scale" type="integer" defaultValue="0">
+			when the gesture is Whell_Release , it indicate the room level
+			when scale is larger than 10000,it means zoom in
+			when scale is less than 10000, it means zoom out
+		</entry>
+		
+		<entry name="visualSizes" type="TSize" isArray="true">
+			when the gesture is Start or Refresh , it indicate the display size of the node that the path points to
+			when the gesture is DnD_Release,it indicate the display size of the dragging target ,it's dimension is pixel
+		</entry>
+		
+		<entry name="viewVersion" type="integer">the view version of current user</entry>
+		<entry name="symbolicName" type="string">the name of the target of gesture</entry>
+	</type>
+
+	<type name="TInformServer">
+		encapsulate the gesture the client-end produce ,it is used to notify the service
+		<entry name="gesture" type="TGesture" />
+	</type>
+
+	<enum name="TResponseType">
+		<member name="Response_Add" />
+		<member name="Response_Delete" />
+		<member name="Response_Replace" />
+		<member name="Response_Update" />
+		<member name="Response_Start_Animations" />
+		<member name="Response_Stop_Animations" />
+	</enum>
+
+	<type name="TResponse">
+		<entry name="responseType" type="TResponseType" />
+		<entry name="data" type="TPlacement" />
+		
+	</type>
+
+	<type name="TResponseClosure">
+		<entry name="data" type="TResponse" isArray="true" />
+		<entry name="nestData" type="TResponseClosure" isArray="true"></entry>
+		<entry name="maxSize" type="TSize">Valid values ​​range:((0,0),(10000,10000))</entry>
+		<entry name="limitPoint" type="TPoint"></entry>
+		<entry name="pathConstraint" type="TPath">this TPath is absolute.</entry>
+	</type>
+
+	<!-- 
+	    ************************************************************* 
+				This Part is deprecated, and deleted in the future 
+	    ************************************************************* 
+	-->
+
+	<type name="TAddNode">
+		<entry name="data" type="TPlacement" />
+	</type>
+
+	<type name="TAttachNode">
+		<doc>Tell the client side something happened.</doc>
+		<entry name="parent" type="TPath" />
+		<entry name="id" type="integer" defaultValue="0" />
+		<entry name="order" type="integer" defaultValue="0" />
+		<entry name="source" type="TPath" />
+	</type>
+
+	<type name="TDeleteNode">
+		<entry name="path" type="TPath" />
+	</type>
+
+	<type name="TReplaceNode">
+		<entry name="data" type="TPlacement" />
+	</type>
+
+	<type name="TUpdateNode">
+		<entry name="data" type="TPlacement" />
+	</type>
+
+
+	<type name="TBehavior">
+	
+		it encapsulates the gesture type we are interested in ,as well as the response taken by local machine
+		
+		<entry name="gestureType" type="TGestureType">set the gesture type</entry>
+		<entry name="informServer" type="boolean" defaultValue="true">
+			when the gesture happened , it specify whether to notify the service-end,
+			it's default value is true which means it will notify the service-end.
+		</entry>
+		
+		<entry name="actionTypes" type="TResponse" isArray="true">
+			it indicate the local response when the gesture happens.the TPath in TResponse is relative route in default,
+			if absolute path is in use,the first number in TPath should be set to -10000,for example,the path [-10000,0,2] 
+			represents subnode [2] of root node [0].
+		</entry>
+		
+		<entry name="passThrough" type="boolean" defaultValue="false">
+			after the gesture happened,it define if the gesture is able to be passed in order to be handled by the TCell.
+			the default value is false.
+		</entry>
+		
+		<entry name="dependPlatfGestureType" type="DependPlatfGestureType">
+			when gestureType is Any,this term will in action</entry>
+	</type>
+
+	<type name="TSelectionCriterion">
+		<doc>Selection provides a set of data point in order for the parent
+			cell to select the best fitting cell as its display
+		</doc>
+		<entry name="name" type="string" />
+		<entry name="importance" type="integer" defaultValue="0" />
+		<entry name="member" type="string" />
+	</type>
+
+	<type name="TPlacement">
+	
+		it encapsulate the information including a display element with 
+		it's route ,placement ,size and display level .the lacement and 
+		size are both relative ,in default situation ,they are relative 
+		to their father TPlacement,but they can also be set by setting 
+		the value of referencePointDerivation，relativeValueDerivation.
+		in default situation ,placement is relative to its father's 
+		left-up point,but it can also be set by changing the value of
+		referencePiont.the value of width and height can be defferent 
+		types ,including ValueType_Fixed，ValueType_Free，ValueType_Tight.
+		when specifying the size of TPlacement ,there are to pattern need to be 
+		specified : size and fixedSize. If the value of width and height of size 
+		are both -1,then the size of the TPlacement is infinity.use fixedsize to 
+		specify the size of a child TPlacement whose father TPlacement's size is 
+		infinity.
+		the standard way to set the value of referencePointDerivation，
+		relativeValueDerivation:
+		the value is null,indicate it is father TPlacement
+		the value is -1,indicate it is gradfather TPlacement
+		the value is N,indicate it is number N child TPlacement
+		example:
+		there are eight nodes :A[0]，B[0，1]，C[0，2]，D[0，2，1]，E[0，2，2]，
+		F[0，2，2，1]，G[0，2，2，2]，H[0，2，2，2，0],assume the order they are
+ 		added into the father node is opposite to the value of number.
+		e.g.with B and C ,B will be add to the TCell earlier than C,so the 
+		number of B is 0,the nuber of C is 1.
+		if G is referrenced to C,then the value of referencePointDerivaion is {-1}
+		if G is referrenced to D,then the value of referencePointDerivaion is {-1,0}
+		if H is referrenced to B,then the value of referencePointDerivaion is {-1,-1}
+
+		<entry name="path" type="TPath">the relative route</entry>
+		<entry name="order" type="integer" defaultValue="0">
+			the order of display,the default value is the highest place
+		</entry>
+		
+		<entry name="display" type="boolean" defaultValue="true">
+			if it is visible ,the default value is true
+		</entry>
+		
+		<entry name="position" type="TPoint">
+			set the place to display,the placement of top-left
+		</entry>
+		
+		<entry name="referencePoint" type="TPostionType"
+			defaultValue="TPostionType.TPostionType_Left_Up_In">
+			set the type of reference point</entry>
+			
+		<entry name="referencePointDerivation" type="integer" isArray="true">
+			set the route of reference point ,it is relative route
+		</entry>
+		
+		<entry name="size" type="TSize">display size,it must be TSize.width = -10000,
+			TSize.height = -10000(except for initial support(IS))</entry>
+			
+		<entry name="absoluteSize" type="TSize">indicate fixed size,the dimension is pixel</entry>
+		<entry name="widthValueType" type="TValueType" defaultValue="TValueType.ValueType_Fixed">
+			the type of the value of width
+		</entry>
+		
+		<entry name="heightValueType" type="TValueType" defaultValue="TValueType.ValueType_Fixed">
+			the type of the value of height
+		</entry>
+		
+		<entry name="transformation" type="TTransformation">the transformation matrix</entry>
+		<entry name="relativeValueDerivation" type="integer" isArray="true">
+			the reference coordinate to compute the pixel value of TSize
+		</entry>
+		
+		<entry name="matchedCriterion" type="TSelectionCriterion"
+			isArray="true">
+			to match object.when the father need to display only one child node,the father cell will match with itself and the matcher offered by client ,
+			if it matches some TPlacement successfully ,when fillType=SelectOne ,it will display the TPlacement when fillType=Differred it will get the TAbstractVisible value
+			of the TPlacement ,and then display the node. 
+		</entry>
+		
+		<entry name="data" type="TAbstractVisible">display element</entry>
+		
+		<entry name="innerOffset" type="TSize">
+			the offset of all the child element ,the dimension is pixel
+		</entry>
+		
+		<entry name="scale" type="integer" defaultValue="0">scaling value</entry>
+	</type>
+
+	<type name="TCursor">
+		<entry name="cursorType" type="CursorType" defaultValue="CursorType.Default_Cursor" />
+		<entry name="image" type="TImage" />
+		<entry name="hotspot" type="TPoint" />
+		<entry name="size" type="TSize" />
+	</type>
+
+	<type name="AspectKeeper">
+		<entry name="minAspectRatio" type="integer" defaultValue="0">
+			the minimum ratio between width and height</entry>
+			
+		<entry name="maxAspectRatio" type="integer" defaultValue="0">
+			the maximum ratio between width and height</entry>
+			
+		<entry name="xLoc" type="integer">used to specify the x of the center,e.g. xLoc = 5000</entry>
+		<entry name="yLoc" type="integer">used to specify the y of the center,e.g. yLoc = 5000</entry>
+	</type>
+
+	<enum name="FillType">
+		<member name="ShowAll"></member>
+
+		<member name="Differred">
+			only display one child node ,and  the node's data is uncompleted at the client end.
+			it means that the value of TPlacement's data is TNone
+		</member>
+	</enum>
+
+	<type name="TCell" extends="TAbstractVisible">
+
+		complex display element,encapsulate the information of other primitive element or complex element,
+		and the way to correspond to the client ,as well as the shape of mouse when it is on the element
+		
+		<entry name="symbolicName" type="string" defaultValue="" />
+		
+		<entry name="fillType" type="FillType" defaultValue="FillType.ShowAll">
+		to specify whether to display only one child node or all child nodes,the default value is FillType.ShowAll,
+		it means to show all child nodes.
+		</entry>
+		
+		<entry name="cursor" type="TCursor">when the mouse is on the element ,the type of the mouse</entry>
+		<entry name="criterionProvider" type="TSelectionCriterion"
+			isArray="true">
+			the standard way to choose the node to display.
+			when the value of selectOne is true,the standard is used to choose the only node to display
+		</entry>
+		
+		<entry name="borderMinPixels" type="integer">
+			to specify the minimum value of border in pixel.
+		</entry>
+		
+		<entry name="aspectKeeper" type="AspectKeeper">specify the relationship between width and height.</entry>
+		<entry name="isFocusable" type="boolean" defaultValue="false">if the focus is enable
+		</entry>
+		
+		<entry name="behavior" type="TBehavior" isArray="true">
+			specify the interested gesture,and the respondence when the gesture is happened.
+		</entry>
+		
+		<entry name="subNodes" type="TPlacement" isArray="true">specify the child node</entry>
+		<entry name="animations" type="TAnimation" isArray="true">specify the animation</entry>
+	</type>
+
+	<type name="TReference" extends="TAbstractVisible">
+		<doc>This is a reference of another node in the tree and acts as if
+			that tree is at this position.
+		</doc>
+		<entry name="path" type="TPath" />
+	</type>
+
+	<doc>
+		=========================================================================
+		Animation definition
+		=========================================================================
+	</doc>
+
+
+	<type name="TAnimation">
+		the principle for TAnimation to start running and end is delaying start and end early.
+		when there are many condition for start,start running only when all the condition are ready.
+		when there are many condition for ending,end when any condition is ready.
+		if the condition for start is not specified,the condition that 
+		the element that the path refers to starts displaying will be the condition for start.
+		if the condition for end is not specified,the condition that 
+		the element that the path refers to ends displaying will be the condition for ending.
+
+		<entry name="beginWhenTime" type="integer" defaultValue="-1">
+			the condition for starting animation is :set by time.
+		</entry>
+		<entry name="endWhenTime" type="integer" defaultValue="-1">
+			the condition for ending animation is :set by time.
+		</entry>
+		<entry name="task" type="TAnimationTask" isArray="true" />
+		<entry name="children" type="TAnimation" isArray="true" />
+		<doc>Specify whether or not to be repeated</doc>
+		<entry name="accumulate" type="boolean" defaultValue="false">
+			whether to add the value before
+		</entry>
+		<entry name="repeatCount" type="integer" defaultValue="-1">
+			specify the number of times for running
+		</entry>
+		<entry name="timeUnit" type="TTimeUnit" defaultValue="TTimeUnit.SECONDS">
+			specify the unit for time
+		</entry>
+	</type>
+
+	<enum name="TInterpolatedCalcModeType">
+		<member name="Interpolation_Discrete">
+			random
+			Specify the animation function is to jump from one value to another value, without any interpolation
+		</member>
+		<member name="Interpolation_Linear">
+			linear 
+			specify the animation function is simple interpolation among values. 
+		</member>
+		<member name="Interpolation_Paced">
+			uniform
+			specify the animation function is that can produce values in uniform pace,
+			if this type is specified 'keyTimes' and 'keySplines' will be ignored
+		</member>
+		<member name="Interpolation_Spline">
+			uniform
+			specify the animation function is that can produce values in uniform pace,
+			if this type is specified 'keyTimes' and 'keySplines' will be ignored
+		</member>
+	</enum>
+
+	<enum name="TTimeUnit">
+		<member name="NANOSECONDS" />
+		<member name="MICROSECONDS" />
+		<member name="MILLISECONDS" />
+		<member name="SECONDS" />
+		<member name="MINUTES" />
+		<member name="HOURS" />
+		<member name="DAYS" />
+	</enum>
+
+	<type name="TAnimationTask">
+		<entry name="values" type="TPlacement" isArray="true">replacement:TPlaceement
+		</entry>
+		<doc>f(t)</doc>
+		<entry name="calcMode" type="TInterpolatedCalcModeType"
+			defaultValue="TInterpolatedCalcModeType.Interpolation_Linear" />
+
+		<entry name="keyTimes" type="integer" isArray="true">
+			used to control the pace of animation,it specify the time when the value of values can be applied to animation function,
+			every value in keyTimes is referring to the value of values one to one ,and its value ranges from 0 to 10000 in integer,every value has to be larger than or equal to the value before itself.
+			when the type of interpolation is Linear or Spline ,the first value in KeyTimes has to be 0.the last has to be 10000;when the type is Discrete,the first value has to be 0.
+			when the user didn't specify this property,when the type is Discrete ,dur will be split into n parts .the other types will be split into n-1 parts
+		</entry>
+
+		<entry name="keySplines" type="integer" isArray="true">
+		the list of control point of Bézier,define a cubic Bézier function,used to control the pace of animation.
+		Its value is an integer less than or equal to 10000, and larger than or equal to 0.four value in the list 
+		and their referring two value is keyTimes can compose a cubic Bézier 
+		</entry>
+		<entry name="dur" type="integer" defaultValue="-1">specify the period</entry>
+	</type>
+
+	<type name="TGetResourcesFromUsr">
+		<entry name="path" type="TPath" />
+		<entry name="resourceType" type="TMIME" />
+		<entry name="multiSelectionEnabled" type="boolean" defaultValue="false" />
+	</type>
+
+	<type name="TUploadResources">
+		<entry name="path" type="TPath" />
+		<entry name="resources" type="TResourceUnit" isArray="true" />
+	</type>
+
+	<type name="TResourceUnit">
+		<entry name="fileName" type="string" />
+		<entry name="data" type="byteArray" />
+		<entry name="resourceType" type="TMIME" />
+	</type>
+
+	<type name="TMIME">
+		<entry name="type_subType" type="string" />
+	</type>
+
+	<doc>
+		=========================================================================
+		3D definition
+		=========================================================================
+	</doc>
+
+	<enum name="RotateExtentType">
+		<member name="ZERO" />
+		<member name="X" />
+		<member name="XX" />
+		<member name="XXX" />
+	</enum>
+
+	<type name="T3DVector">
+		<entry name="x" type="integer" defaultValue="0" />
+		<entry name="y" type="integer" defaultValue="0" />
+		<entry name="z" type="integer" defaultValue="0" />
+	</type>
+
+	<type name="T3D" extends="TAbstractVisible">
+
+		primitive element 3D
+
+		<entry name="name" type="string">
+		the name of the element in 3D world , it is unique</entry>
+		<entry name="texture" type="TImage">the material to compose 3D</entry>
+		<entry name="textureInfo" type="byteArray">the information of the material</entry>
+		<entry name="textureModel" type="byteArray">the model of the material</entry>
+
+		<entry name="animation" type="TAnimation" isArray="true">
+		animation ,there is at most only one animation
+		</entry>
+
+		<entry name="behavior" type="T3DBehavior" isArray="true">
+		specify the interested gesture,and the respondence when the gesture is happened.
+		</entry>
+	</type>
+
+
+	<type name="T3DPlacement">
+		<entry name="position" type="T3DVector">
+		specify the placement of display (the placement of the point at top left)
+		</entry>
+		<entry name="rotate" type="RotateExtentType" defaultValue="RotateExtentType.ZERO">
+		the rotate ,default value is 0
+		</entry>
+		<entry name="scale" type="integer" defaultValue="0">scaling rate the default value is 0</entry>
+		<entry name="data" type="TAbstractVisible">T3D or TVisualMaterial</entry>
+	</type>
+
+	<type name="T3DWorld" extends="TAbstractVisible">
+		<entry name="lights" type="T3DLight" isArray="true"></entry>
+		<entry name="background" type="TAbstractVisible">T3D or TVisualMaterial</entry>
+		<entry name="objects" type="T3DPlacement" isArray="true"></entry>
+		<entry name="fogs" type="T3DFog" isArray="true"></entry>
+		
+		<entry name="cameraPosition" type="T3DVector"></entry>
+		<entry name="cameraDirection" type="T3DVector"></entry>
+	</type>
+
+	<type name="T3DLight">
+		<entry name="position" type="T3DVector"></entry>
+		<entry name="color" type="TColor"></entry>
+		<entry name="rotate" type="RotateExtentType" defaultValue="RotateExtentType.ZERO">
+		the rotate ,default value is 0
+		</entry>
+	</type>
+
+	<type name="T3DFog">
+		<entry name="start" type="integer" defaultValue="0"></entry>
+		<entry name="distance" type="integer" defaultValue="10000"></entry>
+		<entry name="color" type="TColor"></entry>
+	</type>
+
+	<doc>
+		=========================================================================
+		Channel definition
+		=========================================================================
+	</doc>
+
+	<type name="TChannel">
+		<entry name="type" type="TMIME">Channel type</entry>
+		<entry name="id" type="integer">Channel id</entry>
+		<entry name="name" type="string">Channel description</entry>
+		<entry name="url" type="string" defaultValue=""></entry>
+		<entry name="port" type="integer" defaultValue="-1"></entry>
+		<entry name="path" type="TPath">tie to the TCell</entry>
+	</type>
+
+	<enum name="TChannelOperationType">
+		<member name="ChannelOperation_Open">open some channel</member>
+		<member name="ChannelOperation_Create">create one channel family</member>
+		<member name="ChannelOperation_Query">whether exists some channel family or not</member>
+		<member name="ChannelOperation_Close"></member>
+		<member name="ChannelOperation_Flush"></member>
+	</enum>
+
+	<enum name="ChannelResponseType">
+		<member name="ChannelResponse_Error"></member>
+		<member name="ChannelResponse_OK"></member>
+	</enum>
+
+	<type name="TChannelOperation">
+
+		used when Server inform Client.
+		
+		<entry name="operationId" type="integer" defaultValue="0"></entry>
+		<entry name="operationType" type="TChannelOperationType"></entry>
+		<entry name="channel_or_group_id" type="integer" isArray="true">
+			when operationType is TChannelOperationType.ChannelOperation_Close, Client
+			close the channel with the specified channel_id.
+			when operationType is
+			TChannelOperationType.ChannelOperation_Open, Client open the channel
+			contained in the channel group with
+			with the specified group_id. if group_id no exists, Client will create
+			and open channel. However, the array length is 1.
+		</entry>
+		<entry name="channels" type="TChannel" isArray="true"></entry>
+		<entry name="data" type="byteArray">when operationType is
+			TChannelOperationType.ChannelOperation_Open, This field may be not
+			null.
+		</entry>
+	</type>
+
+	<type name="TChannelOperationResponse">
+
+		used when Client notify Server.
+		
+		<entry name="operationId" type="integer" defaultValue="0"></entry>
+		<entry name="operationType" type="TChannelOperationType"></entry>
+		<entry name="channelGroupId" type="integer" isArray="true">
+			when response for server's ChannelOperation_Create, This field is not null
+		</entry>
+		<entry name="channels" type="TChannel" isArray="true"></entry>
+		<entry name="data" type="byteArray"></entry>
+		<entry name="responseType" type="ChannelResponseType" defaultValue="ChannelResponseType.ChannelResponse_OK"></entry>
+	</type>
+
+	<type name="TVisualMaterial" extends="TAbstractVisible">
+		used to replace a large object temporarily. The large object may already exist locally, 
+		if the version identifies the local version,the local large object will be used; or to 
+		retrieve the latest version from server, and save it locally.
+		
+		<entry name="id" type="string"></entry>
+		<entry name="version" type="integer" isArray="true"></entry>
+		<entry name="dataLen" type="integer" defaultValue="0">
+			the data quantity of large object , it's  dimension MB
+		</entry>
+		<entry name="animations" type="TAnimation" isArray="true">
+			if this term is null,the client will provide a simple animation
+		</entry>
+	</type>
+
+	<type name="T3DBehavior">
+		it encapsulates the gesture type we are interested in ,as well as the response taken by local machine
+
+		<entry name="gestureType" type="T3DGestureType">set the gesture type</entry>
+		<entry name="dependPlatfGestureType" type="DependPlatfGestureType"></entry>
+		<entry name="responses" type="T3DResponse" isArray="true">it indicate the local response when the gesture happens.</entry>
+		<entry name="informServer" type="boolean" defaultValue="false">
+			when the gesture happened , it specify whether to notify the service-end.
+		</entry>
+
+	</type>
+
+	<type name="T3DResponse">
+		<entry name="responseType" type="TResponseType"></entry>
+		<entry name="data" type="T3DPlacement"></entry>
+	</type>
+
+	<enum name="T3DGestureType">
+		<member name="t3D_select"></member>
+		<member name="t3D_delete"></member>
+		<member name="t3D_hover"></member>
+		<member name="t3D_drag_start"></member>
+		<member name="t3D_drag"></member>
+		<member name="t3D_drag_release"></member>
+		<member name="forward_backward"></member>
+		<member name="left_right"></member>
+		<member name="up_down"></member>
+		<member name="left_right_turn"></member>
+		<member name="up_down_turn"></member>
+		<member name="zoom"></member>
+		<member name="object_turn_left_right"></member>
+		<member name="object_center_left_right"></member>
+		<member name="object_center_forward_backward"></member>
+		<member name="jump_to"></member>
+		<member name="dependPlatfGestureType"></member>
+	</enum>
+	<doc>
+		=========================================================================
+		Media definition
+		=========================================================================
+	</doc>
+		<enum name="TMediaType">
+		<member name="CommonMedia">routine audio and video</member>
+		<member name="WebCamInit">positive data of camera</member>
+		<member name="WebCamPass">passive data of camera</member>
+		<member name="ScreenCapture">data of screenshot</member>
+		<member name="Other">other data</member>
+	</enum>
+		
+	<type name="TMedia" extends="TAbstractVisible">
+		<entry name="mediaType" type="TMediaType">type of media</entry>
+		<entry name="src_url" type="TMIME">URL of source file, including video port,audio port</entry>
+		<entry name="poster_url" type="TImage">the cover image before the buffer is ready, and define rendering format for TMedia by xDirection, yDirection and relationship</entry>
+		<entry name="src_data" type="byteArray">used to encapsulate the source file when it is small</entry>
+		<entry name="audioOnly" type="boolean" defaultValue="false">there are audio files only and not need to open the video window </entry>
+		<entry name="timeUnit" type="TTimeUnit" defaultValue="TTimeUnit.SECONDS">the dimension of time</entry>
+		<entry name="start" type="integer" defaultValue="0">starting time</entry>
+		<entry name="end" type="integer" defaultValue="0">end time</entry>
+		<entry name="loopStart" type="integer" defaultValue="0">the starting time of cycled playing</entry>
+		<entry name="loopEnd" type="integer" defaultValue="0">the end time of cycled playing</entry>
+		<entry name="autoPlay" type="boolean" defaultValue="false">whether to play automatically</entry>
+		<entry name="control" type="boolean" defaultValue="true">whether to display the control bar</entry>
+		<entry name="playCount" type="integer" defaultValue="1">
+				how many times to play,if the value is one,play for one time,if the value is higher than one,start cycled playing
+		</entry>
+	</type>
+</DUCDefinition>
