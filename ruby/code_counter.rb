@@ -2,7 +2,7 @@
 
 require 'find'
 
-$SrcPattern = /.*\.h|.*\.cpp/
+$SrcPattern = /.*\.h|.*\.cpp|.*\.c/
 
 # check arg num
 unless ARGV.size == 1
