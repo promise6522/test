@@ -1,8 +1,11 @@
-%%#! /usr/bin/env escript
+#! /usr/bin/env escript
 
 -module(processes).
 
 -export([create/1, create_and_destroy/1]).
+
+% Compile it before run to get proper benchmark data
+-mode(compile).
 
 %% max(N)
 %%   Create N processes then destry them
