@@ -1,3 +1,4 @@
+#include <unistd.h>
 #include <assert.h>
 #include <errno.h>
 #include <string.h>
@@ -40,6 +41,8 @@ void set_pthread_stack_size(pthread_attr_t *attr, size_t newsize)
 
 int main(int argc, char* argv[])
 {
+    nice(-20);
+
     int thread_num;
 
     if (argc == 1)

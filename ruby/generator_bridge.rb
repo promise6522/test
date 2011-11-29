@@ -58,29 +58,62 @@ $bridge_defs.each do | e |
 
 end
 
-# write to nb_bridge_instruction.h
-gen_name = "nb_bridge_instruction.h"
-File.open(gen_name, "w") do | file |
-  # writing head
-  guard = "_#{gen_name.upcase.gsub(/\./, "_")}_"
-  file.write("#ifndef #{guard}\n")
-  file.write("#define #{guard}\n")
-  file.write("\n")
 
-  file.write("enum nb_bridge_instruction_t {\n")
-  file.write("\n")
+# generate C++ {idx, fields} mapping code
+def generate_idx_fields_mapping(bridge_defs)
+  codes = []
+  codes << "std::map<int, std::vector<std::string> > create_bridge_fields_info()"  
+  codes << "{"
+  ident = " " * 4
+  codes << ident + "std::map<int, std::vector<std::string> > bf_info;"
 
-  # indent 4 spaces
-  indent = " " * 4
-  $bridge_funcs.each { | e | file.write(indent + e) }
+  # sort by index
+  bridge_defs.sort {|x,y| x.index <=> y.index}
 
-  file.write("}; /* enum nb_builtin_instruction_t */\n")
+  bridge_defs.each do | bdef |
+    # comment: id. name
+    codes << ident + "// #{bdef.index}. #{bdef.name}"
+    # push_back
+    fmt = ident + 'bf_info[%d].push_back("%s");'
+    bdef.entries.each {| e | codes << fmt % [bdef.index, e.name]}
 
-  # writing end
-  file.write("\n")
-  file.write("#endif /* #{guard} */")
+    codes << ""
+  end
+  codes << ident + "return bf_info;" 
+  codes << "}"
+
+  #codes.each { |line| puts line }
+  return codes
 end
 
 if __FILE__ == $0
+# write to nb_bridge_instruction.h
+  gen_name = "nb_bridge_instruction.h"
+  File.open(gen_name, "w") do | file |
+    # writing head
+    guard = "_#{gen_name.upcase.gsub(/\./, "_")}_"
+    file.puts("#ifndef #{guard}")
+    file.puts("#define #{guard}")
+    file.puts("")
+  
+    # 1. enum nb_bridge_instruction_t
+    file.puts("enum nb_bridge_instruction_t {")
+    file.puts("")
+  
+    indent = " " * 4
+    $bridge_funcs.each { | e | file.write(indent + e) }
+  
+    file.puts("}; /* enum nb_builtin_instruction_t */")
+    file.puts("")
+  
+    # 2. init_bridge_fields_info
+    codes = generate_idx_fields_mapping($bridge_defs)
+    codes.each {|line| file.puts(line)}
+
+    # writing end
+    file.puts("")
+    file.puts("#endif /* #{guard} */")
+  end
+
   puts %x[cat nb_bridge_instruction.h]
 end
