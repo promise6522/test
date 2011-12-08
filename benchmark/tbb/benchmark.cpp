@@ -16,7 +16,11 @@ int kPushNum = 1000000;
 tbb::concurrent_queue<int> q;
 #else
 std::queue<int> q;
+  #ifdef USE_SPINLOCK
+pthread_spinlock_t q_mutex;
+  #else
 pthread_mutex_t q_mutex;
+  #endif
 #endif
 
 void* pthread_func(void* arg)
@@ -26,9 +30,16 @@ void* pthread_func(void* arg)
 #ifdef USE_TBB
         q.push(0);
 #else
+  #ifdef USE_SPINLOCK
+        pthread_spin_lock(&q_mutex);
+        q.push(0);
+        pthread_spin_unlock(&q_mutex);
+
+  #else
         pthread_mutex_lock(&q_mutex);
         q.push(0);
         pthread_mutex_unlock(&q_mutex);
+  #endif
 #endif
     }
 
@@ -45,8 +56,12 @@ int main(int argc, char* argv[])
 
 
 #ifndef USE_TBB
+  #ifdef USE_SPINLOCK
+    pthread_spin_init(&q_mutex, PTHREAD_PROCESS_SHARED);
+  #else
     // init mutex
     pthread_mutex_init(&q_mutex, NULL);
+  #endif
 #endif
 
     std::vector<pthread_t> tids;
