@@ -8,6 +8,7 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <netdb.h>
+#include <signal.h>
 
 #include "helper.h"
 
@@ -52,10 +53,11 @@ int main(int argc, char* argv[])
         exit(1);
     }
     set_nonblocking(sockfd);
+    signal(SIGPIPE, SIG_IGN);
 
     printf("Successfully connect to server.\n");
 
-    char buf[4096];
+    char buf[1024];
     int total = 0;
     for ( ; ; )
     {
@@ -64,6 +66,8 @@ int main(int argc, char* argv[])
         {
             total += nwrite;
             printf("nwrite = %d, total = %d\n", nwrite, total);
+
+            sleep(1);
         }
         else if (nwrite == -1)
         {

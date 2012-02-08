@@ -6,6 +6,7 @@
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
+#include <signal.h>
 
 #include "helper.h"
 
@@ -52,6 +53,7 @@ int main(int argc, char* argv[])
 
     // mark the socket fd non-blocking
     set_nonblocking(connfd);
+    signal(SIGPIPE, SIG_IGN);
 
     char buf[1024];
     for ( ; ; )
@@ -73,6 +75,10 @@ int main(int argc, char* argv[])
         else
         {
             printf("read data size = %d\n", readn);
+            int nwrite = write(connfd, buf, sizeof buf);
+            printf("nwrite = %d\n", nwrite);
+            if (nwrite == -1)
+                perror("write error");
 
             sleep(1);
         }
