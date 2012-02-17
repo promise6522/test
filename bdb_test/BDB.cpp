@@ -31,7 +31,7 @@ const char* DB_DATABASE_NAME = 0;               //we use the default databse in 
 
 //const uint32_t DB_FLAGS = DB_CREATE | DB_AUTO_COMMIT;
 //const uint32_t DB_FLAGS = DB_CREATE | DB_AUTO_COMMIT | DB_MULTIVERSION;
-const uint32_t DB_FLAGS = DB_CREATE | DB_AUTO_COMMIT | DB_READ_UNCOMMITTED;
+const uint32_t DB_FLAGS = DB_CREATE | DB_AUTO_COMMIT;// | DB_READ_UNCOMMITTED;
 
 const uint32_t DB_MODE = 0;
 
@@ -172,20 +172,14 @@ int main()
     // read uncommitted test
     DbTxn *txn1 = NULL, *txn2 = NULL, *txn3 = NULL;
 
-    env.txn_begin(NULL, &txn1, DB_READ_UNCOMMITTED);
-    //assert(0 == db_read(db, "hello", strval, txn1, 0));
-    //assert(0 == db_write(db, "hello", "txn1", txn1, 0));
-
-    env.txn_begin(NULL, &txn2, 0);
+    env.txn_begin(NULL, &txn1, 0);
+    assert(0 == db_write(db, "hello", "txn1", txn1, 0));
+    env.txn_begin(txn1, &txn2, 0);
     assert(0 == db_write(db, "hello", "txn2", txn2, 0));
-    
-    assert(0 == db_read(db, "hello", strval, txn1, 0));
-
-    txn2->commit(0);
-
-    assert(0 == db_read(db, "hello", strval, txn1, 0));
-
+    //assert(0 == db_read(db, "hello", strval, txn1, 0));
+    txn2->abort();
     txn1->commit(0);
+
 //
 //    env.txn_begin(NULL, &txn1, 0);//DB_TXN_SNAPSHOT);
 //    assert(0 == db_write(db, "hello", "world2", txn1, 0));

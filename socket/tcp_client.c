@@ -66,8 +66,15 @@ int main(int argc, char* argv[])
         {
             total += nwrite;
             printf("nwrite = %d, total = %d\n", nwrite, total);
+	    sleep(1);
 
-            sleep(1);
+	    int nread = read(sockfd, buf, sizeof buf);
+	    printf("nread = %d\n", nread);
+	    if (nread == -1)
+		perror("read error");
+            //sleep(10);
+	    //close(sockfd);
+	    //exit(1);
         }
         else if (nwrite == -1)
         {
