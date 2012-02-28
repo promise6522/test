@@ -52,10 +52,21 @@ int main(int argc, char* argv[])
     printf("Accept a new client.\n");
 
     // mark the socket fd non-blocking
-    set_nonblocking(connfd);
+    //set_nonblocking(connfd);
     signal(SIGPIPE, SIG_IGN);
 
-    char buf[1024];
+
+    char buf[512];
+
+    assert(0 == shutdown(connfd, SHUT_WR));
+    int nwrite = write(connfd, buf, sizeof buf);
+    printf("nwrite = %d\n", nwrite);
+    if (nwrite == -1)
+    {
+	perror("Write after EOF");
+	printf("errno = %d\n", errno);
+    }
+
     for ( ; ; )
     {
         int readn = read(connfd, buf, sizeof buf);
@@ -65,23 +76,27 @@ int main(int argc, char* argv[])
             perror("Read error");
             printf("errno = %d\n", errno);
 
-            sleep(2);
         }
         else if (readn == 0)
         {
-            printf("Client shutdown.\n");
-            break;
+            printf("End of file.\n");
+
+	    // This write would result in RST packet
+            int nwrite = write(connfd, buf, sizeof buf);
+            printf("nwrite = %d\n", nwrite);
+            if (nwrite == -1)
+	    {
+		perror("Write after EOF");
+                printf("errno = %d\n", errno);
+	    }
         }
         else
         {
             printf("read data size = %d\n", readn);
-            int nwrite = write(connfd, buf, sizeof buf);
-            printf("nwrite = %d\n", nwrite);
-            if (nwrite == -1)
-                perror("write error");
 
-            sleep(1);
         }
+	
+        sleep(1);
     }
 
     printf("Exit main.\n");
