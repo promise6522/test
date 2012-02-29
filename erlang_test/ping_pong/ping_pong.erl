@@ -3,7 +3,9 @@
 -export([main/1]).
 
 % Compile before run to get proper results
-%-mode(compile).
+-mode(compile).
+
+-define(MAX_ROUND, 10000000).
 
 start_ping() ->
     Pong = spawn(fun() -> pong() end),
@@ -13,10 +15,10 @@ start_ping() ->
 
 ping(N) ->
     receive
-        {pong, Pong, 1000000} ->
-            io:format("1000000 round trips finished.~n"),
+        {pong, Pong, ?MAX_ROUND} ->
+            io:format("~p round trips finished.~n", [?MAX_ROUND]),
             Pong ! {finished},
-            main ! {finished, 1000000};
+            main ! {finished, ?MAX_ROUND};
 
         {pong, Pong, N} ->
             Next = N + 1,
