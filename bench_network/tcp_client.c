@@ -83,9 +83,11 @@ int main(int argc, char* argv[])
                 break;
         }
 
+#ifndef NOACK
         char ack;
 	    int nread = read(sockfd, &ack, sizeof ack);
         assert(nread == 1 && ack == 1);
+#endif
     }
     struct timeval tv_end;
     gettimeofday(&tv_end, NULL);

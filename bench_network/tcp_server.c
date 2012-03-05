@@ -91,9 +91,11 @@ int main(int argc, char* argv[])
             }
         }
 
+#ifndef NOACK
         char ack = 1;
         int nwrite = write(connfd, &ack, sizeof ack);
         assert(nwrite == 1);
+#endif
     }
 
     long total = BUF_SIZE * round_trip;
