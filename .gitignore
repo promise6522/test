@@ -16,3 +16,5 @@ msgpack_vs_pb/bin/*
 # for bdb_test
 bdb_test/data/*
 
+# ignore *.o (binaries)
+*.o
