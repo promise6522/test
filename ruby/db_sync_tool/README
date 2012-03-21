@@ -1,0 +1,33 @@
+Introduction
+------------
+
+The simple ruby script is used for copying Nebutown database files to multiple 
+directories (even on different machines in the LAN). This is not a powerful tool 
+with features such as fault tolerence and atomic operations, it simply saves you 
+a lot of keystrokes of doing a lot of cp/scp and zip/unzip.
+
+
+How to use 
+----------
+
+1. Copy the db_sync_tool.rb to one of your directory which contains nebutown
+    databases ( dbcore/ and dbmedia/ )
+
+2. Modify the configuraion fields in the script : 
+    add the paths you want the db to be copied to in the list
+    (use IP:FULL_PATH notation, and you must include current dir) 
+
+3. Run the script :
+    ./db_sync_tool.rb <name_of_the_tarball>
+
+4. Check the results :
+    if no error reports, then the operation is success
+    (if one operation fails then the script will fail, note that files already copied
+    before the failure will not be rollback)
+
+
+What it does behind
+-------------------
+
+It simply tar & gzip the specified files and cp/scp to the dir based on the location 
+type (local or remote).
