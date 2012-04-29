@@ -17,3 +17,22 @@ autocmd VimEnter * call AutoNERDTree()
 
 " ident 2 spaces when doing ruby
 "autocmd FileType rb setlocal shiftwidth=2 tabstop=2
+
+
+" auto update tags
+function! UpdateTags()
+    " only update the tags when we've created one
+    if !filereadable("tags")
+        return
+    endif
+
+    " use the path relative to pwd
+    let _file = expand("%")
+    let _cmd = 'ctags --append "' . _file . '"'
+    let _ret = system(_cmd)
+    unlet _cmd
+    unlet _file
+    unlet _ret
+endfunction
+
+autocmd BufWritePost *.cpp,*.h,*.c call UpdateTags()
