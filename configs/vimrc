@@ -1,0 +1,19 @@
+" no folding code!
+set nofoldenable
+" highlight search
+set hlsearch
+
+" filter the unwanted files
+let NERDTreeIgnore=['\.o$', 'tags', 'cscope.*']
+
+" auto launch NERDTree
+function! AutoNERDTree()
+    if 0 == argc()
+        NERDTree
+    end
+endfunction
+
+autocmd VimEnter * call AutoNERDTree()
+
+" ident 2 spaces when doing ruby
+"autocmd FileType rb setlocal shiftwidth=2 tabstop=2
