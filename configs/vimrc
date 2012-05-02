@@ -1,4 +1,12 @@
-" no folding code!
+" auto indent
+set ai
+" show line number
+set number
+" expande tab
+set expandtab
+set tabstop=4
+set shiftwidth=4
+" no folding code
 set nofoldenable
 " highlight search
 set hlsearch
