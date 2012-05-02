@@ -103,7 +103,5 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 fi
 
 # Added by xlj
-alias search='apt-cache search'
-
 # Inogre ctags and cscope database files when using grep
-export GREP_OPTIONS="--exclude=tags --exclude=cscope*"
+export GREP_OPTIONS="--binary-files=without-match --exclude=tags --exclude=cscope*"
