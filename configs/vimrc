@@ -1,5 +1,6 @@
 " auto indent
 set ai
+set smartindent
 " show line number
 set number
 " expande tab
