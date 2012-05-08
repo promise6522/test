@@ -13,7 +13,7 @@
 #include <db_cxx.h>
 
 
-const uint32_t DB_ENV_FLAGS = DB_CREATE | DB_RECOVER
+const uint32_t DB_ENV_FLAGS = DB_CREATE | DB_RECOVER | DB_REGISTER
                             | DB_INIT_MPOOL
                             | DB_INIT_TXN
                             | DB_INIT_LOG
