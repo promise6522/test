@@ -45,3 +45,10 @@ function! UpdateTags()
 endfunction
 
 autocmd BufWritePost *.cpp,*.h,*.c call UpdateTags()
+
+" easy copy to/paste from system clipboard
+nnoremap <C-y> "+y
+vnoremap <C-y> "+y
+nnoremap <C-p> "+gP
+vnoremap <C-p> "+gp
+
