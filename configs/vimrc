@@ -52,3 +52,14 @@ vnoremap <C-y> "+y
 nnoremap <C-p> "+gP
 vnoremap <C-p> "+gp
 
+" show function names in c
+function! ShowFuncName()
+    let lnum = line(".")
+    let col = col(".")
+    echohl ModeMsg
+    echo getline(search("^[^ \t#/]\\{2}.*[^:]\s*$", 'bW'))
+    echohl None
+    call search("\\%" . lnum . "l" . "\\%" . col . "c")
+endfunction
+nnoremap <C-f> :call ShowFuncName() <CR>
+vnoremap <C-f> :call ShowFuncName() <CR>
