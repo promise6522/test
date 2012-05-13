@@ -61,5 +61,4 @@ function! ShowFuncName()
     echohl None
     call search("\\%" . lnum . "l" . "\\%" . col . "c")
 endfunction
-nnoremap <C-f> :call ShowFuncName() <CR>
-vnoremap <C-f> :call ShowFuncName() <CR>
+map ,f :call ShowFuncName() <CR>
