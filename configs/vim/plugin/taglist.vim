@@ -4544,3 +4544,4 @@ endfunction
 let &cpo = s:cpo_save
 unlet s:cpo_save
 
+let Tlist_Use_Right_Window = 1

@@ -27,6 +27,9 @@ autocmd VimEnter * call AutoNERDTree()
 " ident 2 spaces when doing ruby
 "autocmd FileType rb setlocal shiftwidth=2 tabstop=2
 
+" shotcut for taglist
+nnoremap <C-l> :TlistToggle<cr>
+vnoremap <C-l> :TlistToggle<cr>
 
 " auto update tags
 function! UpdateTags()
