@@ -8,7 +8,7 @@
 #include <stdio.h>
 
 #define PAGE_SIZE  4096
-#define PAGE_NUM   1024
+#define PAGE_NUM   10240
 
 int main(int argc, char* argv[])
 {
