@@ -32,7 +32,7 @@ const char* DB_DATABASE_NAME = 0;               //we use the default databse in 
 
 //const uint32_t DB_FLAGS = DB_CREATE | DB_AUTO_COMMIT;
 //const uint32_t DB_FLAGS = DB_CREATE | DB_AUTO_COMMIT | DB_MULTIVERSION;
-const uint32_t DB_FLAGS = DB_CREATE | DB_AUTO_COMMIT;// | DB_MULTIVERSION;// | DB_READ_UNCOMMITTED;
+const uint32_t DB_FLAGS = DB_CREATE | DB_AUTO_COMMIT;// | DB_READ_UNCOMMITTED;// | DB_MULTIVERSION;// | DB_READ_UNCOMMITTED;
 
 const uint32_t DB_MODE = 0;
 
@@ -74,9 +74,11 @@ void* thread_func(void* arg)
     Db* pdb = ((thread_arg*)arg)->pdb;
     DbTxn* txn = ((thread_arg*)arg)->txn;
 
-    const size_t data_len = 1000;
-    assert(0 == db_write(*pdb, "key5", std::string(data_len, 'B'), txn, 0));
-    assert(0 == db_write(*pdb, "key1", std::string(data_len, 'A'), txn, 0));
+    //assert(0 == db_write(*pdb, "key5", std::string(data_len, 'B'), txn, 0));
+    assert(0 == db_write(*pdb, "key7", "this is writen is thread", txn, 0));
+    sleep(2);
+    assert(0 == db_write(*pdb, "key1", "this is writen is thread", txn, 0));
+    //txn->commit(0);
     return 0;
 }
 
@@ -129,6 +131,7 @@ int main()
         sprintf(keybuf, "key%d", i);
         assert(0 == db_write(db, std::string(keybuf), std::string(record_len, 'X'), txn, 0));
     }
+
     txn->commit(0);
 
 
@@ -137,20 +140,26 @@ int main()
     gettimeofday(&tm1, NULL);
 
     DbTxn *txn1 = NULL, *txn2 = NULL;
-    env.txn_begin(NULL, &txn1, DB_TXN_SNAPSHOT);
+    env.txn_begin(NULL, &txn1, 0);
     env.txn_begin(NULL, &txn2, 0);
 
-    std::string strval;
-    assert(0 == db_read(db, "key1", strval, txn1, 0));//check if a readlock is held
-    assert(0 == db_write(db, "key1", std::string(record_len, 'A'), txn1, 0));
+    assert(0 == db_write(db, "key1", "data1", txn1, 0));
+    
+    // see a dirty read
+//    env.txn_begin(NULL, &txn2, DB_READ_UNCOMMITTED);
+//    std::string strval;
+//    assert(0 == db_read(db,  "key1", strval, txn2, 0));// dirty read lock will be granted
+//    assert(0 == db_write(db, "key1", "data2", txn2, 0));//write lock content for a iwrite lock
+//    txn2->commit(0);
 
     pthread_t tid;
     thread_arg targ = {&db, txn2};
     pthread_create(&tid, NULL, thread_func, &targ);
 
-    sleep(3);//enough for another thread to run
+    sleep(1);//enough for another thread to run
+    assert(0 == db_write(db, "key6", "data1", txn1, 0));
     // A dead-lock is detected
-    assert(0 == db_write(db, "key5", std::string(record_len, 'A'), txn1, 0));
+    //assert(0 == db_write(db, "key1", "data2", txn1, 0));
 
     // A self-deadlock case
 //    env.txn_begin(NULL, &txn2, 0);
@@ -159,7 +168,7 @@ int main()
 
     // wait for the thread, if it blocks then the program will hang
     pthread_join(tid, NULL);
-    txn1->commit(0);
+    //txn1->commit(0);
 
 //
 //    env.txn_begin(NULL, &txn1, 0);//DB_TXN_SNAPSHOT);
