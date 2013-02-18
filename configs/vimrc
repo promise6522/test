@@ -11,6 +11,8 @@ set shiftwidth=4
 set nofoldenable
 " highlight search
 set hlsearch
+" enbale syntax highlight
+syntax on
 
 " filter the unwanted files
 let NERDTreeIgnore=['\.o$', 'tags', 'cscope.*']
