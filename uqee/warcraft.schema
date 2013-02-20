@@ -1,0 +1,3488 @@
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = off;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET escape_string_warning = off;
+
+--
+-- Name: plpgsql; Type: PROCEDURAL LANGUAGE; Schema: -; Owner: postgres
+--
+
+CREATE PROCEDURAL LANGUAGE plpgsql;
+
+
+ALTER PROCEDURAL LANGUAGE plpgsql OWNER TO postgres;
+
+SET search_path = public, pg_catalog;
+
+--
+-- Name: account_save(character varying, character varying, smallint); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION account_save(loginname character varying, accname character varying, fcm smallint) RETURNS bigint
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+rename loginname to loginname_param;
+rename accname to accname_param;
+rename fcm to fcm_param;
+ret bigint;
+BEGIN
+        insert into account(loginname, accname, fcm) values(loginname_param, accname_param, fcm_param);
+        select currval('account_id_seq') into ret;
+        return ret;
+end;
+$$;
+
+
+ALTER FUNCTION public.account_save(loginname character varying, accname character varying, fcm smallint) OWNER TO postgres;
+
+--
+-- Name: char_save(bigint, integer, integer, integer, integer, integer, integer, integer, integer, integer, integer, integer, integer, integer, integer, bigint, text, smallint, integer, smallint, integer, integer, integer, smallint, text, integer, integer, integer, character varying, smallint, boolean, integer, character varying, integer, integer, real, integer, text, smallint, smallint, text, integer, integer, character varying, integer, integer, integer, integer, integer, character varying, integer, integer, character varying); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION char_save(acc_id bigint, area_id integer, seq_no integer, crops_contribute integer, money integer, goldencoins integer, food integer, soldier_num integer, geste integer, honor integer, militory_order integer, vip_lvl integer, warehousenum integer, handin_money integer, handin_time integer, majesty bigint, subordinate text, world_area_id smallint, instance_id integer, appearance_type smallint, charlevel integer, last_logout_time integer, levyeventid integer, drill_ground_lvl smallint, tutoriallist text, cumulate_online_time integer, popularity integer, init_general_id integer, zn_flag_name character varying, zn_appeance_type smallint, zn_is_refuse_battle boolean, zn_protect_battle_cd integer, zn_msg character varying, forbiddentime integer, freegold integer, charged_cash real, main_general_id integer, city text, buildingnums smallint, buildlist smallint, used_tickets text, chall_best_grade integer, once_owned integer, jades_num character varying, speaker_num integer, last_compensation_id integer, total_online_time integer, last_paygold_time integer, pay_gold_num integer, pay_draw_reward character varying, draw_fest_rwd_day_index integer, crops_cur_contribute integer, battle_pet_ids character varying) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+rename acc_id to acc_id_param;
+rename area_id to area_id_param;
+rename seq_no to seq_no_param;
+rename crops_contribute to crops_contribute_param;
+rename money to money_param;
+rename goldenCoins to goldenCoins_param;
+rename food to food_param;
+rename soldier_num to soldier_num_param;
+rename geste to geste_param;
+rename honor to honor_param;
+rename militory_order to militory_order_param;
+rename VIP_lvl to VIP_lvl_param;
+rename warehouseNum to warehouseNum_param;
+rename handin_money to handin_money_param;
+rename handin_time to handin_time_param;
+rename majesty to majesty_param;
+rename subordinate to subordinate_param;
+rename world_area_id to world_area_id_param;
+rename instance_id to instance_id_param;
+rename appearance_type to appearance_type_param;
+rename charLevel to charLevel_param;
+rename last_logout_time to last_logout_time_param;
+rename levyEventId to levyEventId_param;
+rename drill_ground_lvl to drill_ground_lvl_param;
+rename tutorialList to tutorialList_param;
+rename cumulate_online_time to cumulate_online_time_param;
+rename popularity to popularity_param;
+rename init_general_id to init_general_id_param;
+rename zn_flag_name to zn_flag_name_param;
+rename zn_appeance_type to zn_appeance_type_param;
+rename zn_is_refuse_battle to zn_is_refuse_battle_param;
+rename zn_protect_battle_cd to zn_protect_battle_cd_param;
+rename zn_msg to zn_msg_param;
+rename forbiddentime to forbiddentime_param; 
+rename freegold to freegold_param;
+rename charged_cash to charged_cash_param;
+rename main_general_id to main_general_id_param;
+rename city to city_param;
+rename buildingNums to buildingNums_param;
+rename buildList to buildList_param;
+rename used_tickets to used_tickets_param;
+rename chall_best_grade to chall_best_grade_param;
+rename once_owned to once_owned_param;
+rename jades_num  to jades_num_param;
+rename speaker_num to speaker_num_param;
+rename last_compensation_id to last_compensation_id_param;
+rename total_online_time to total_online_time_param;
+rename last_paygold_time to last_paygold_time_param; 
+rename pay_gold_num to pay_gold_num_param;
+rename pay_draw_reward to pay_draw_reward_param;
+rename draw_fest_rwd_day_index to draw_fest_rwd_day_index_param;
+rename crops_cur_contribute to crops_cur_contribute_param;
+rename battle_pet_ids to battle_pet_ids_param;
+BEGIN
+	update "character" set
+		area_id				= area_id_param,
+		seq_no				= seq_no_param,
+		crops_contribute		= crops_contribute_param,
+		"money"				= money_param,
+		golden_coins			= goldenCoins_param,
+		food				= food_param,
+		soldier_num			= soldier_num_param,
+		geste				= geste_param,
+		honor				= honor_param,
+		militory_order			= militory_order_param,
+		VIP_lvl				= VIP_lvl_param,
+		majesty				= majesty_param,
+		handin_money			= handin_money_param,
+		handin_time			= handin_time_param,
+		subordinate			= subordinate_param,
+		world_area_id			= world_area_id_param,
+		warehouse_num			= warehouseNum_param,
+		charac_lvl			= charLevel_param,
+		current_instance_id		= instance_id_param,
+		appearance_type			= appearance_type_param,
+		last_logout_time		= last_logout_time_param,
+		levy_event_id			= levyEventId_param,
+		drill_ground_lvl		= drill_ground_lvl_param,
+		tutorialList			= tutorialList_param,
+		cumulate_online_time		= cumulate_online_time_param,
+		popularity			= popularity_param,
+		init_genaral_id			= init_general_id_param,
+		zn_flag_name 			= zn_flag_name_param,
+		zn_appeance_type 		= zn_appeance_type_param,
+		zn_is_refuse_battle 		= zn_is_refuse_battle_param,
+		zn_protect_battle_cd 		= zn_protect_battle_cd_param,
+		zn_msg 				= zn_msg_param,
+		forbiddentime                   = forbiddentime_param,
+		freegold                        = freegold_param,
+		charged_cash                    = charged_cash_param,
+		main_general_id    		= main_general_id_param,
+		city 				= city_param,
+		buildingNums 			= buildingNums_param,
+		buildList 			= buildList_param,
+		used_tickets			= used_tickets_param,
+		chall_best_grade 		= chall_best_grade_param,
+		once_owned                      = once_owned_param,
+		jades_num                       = jades_num_param,
+		speaker_num 			= speaker_num_param,
+		last_compensation_id            = last_compensation_id_param,
+		total_online_time		= total_online_time_param,
+		last_paygold_time   		= last_paygold_time_param,
+		pay_gold_num            	= pay_gold_num_param,
+		pay_draw_reward             	= pay_draw_reward_param,
+		draw_fest_rwd_day_index 	= draw_fest_rwd_day_index_param,
+		crops_cur_contribute 		= crops_cur_contribute_param,
+		battle_pet_ids			= battle_pet_ids_param
+		where id = acc_id_param;
+
+	if FOUND then
+		return 1;
+	end if;
+
+	INSERT INTO "character"(
+            id, area_id, seq_no, crops_contribute, money, golden_coins, 
+            food, soldier_num, geste, honor, militory_order, 
+            vip_lvl, warehouse_num, handin_money, 
+            handin_time, majesty, subordinate, world_area_id, 
+            current_instance_id, appearance_type, charac_lvl, last_logout_time,
+            levy_event_id, drill_ground_lvl, 
+            tutoriallist, cumulate_online_time, 
+            popularity, init_genaral_id,zn_flag_name,zn_appeance_type,zn_is_refuse_battle,
+            zn_protect_battle_cd,zn_msg,forbiddentime,freegold, charged_cash, main_general_id,
+            city, buildingnums, buildlist, used_tickets,
+            chall_best_grade, once_owned, jades_num,
+	    speaker_num,last_compensation_id, total_online_time, last_paygold_time,
+	    pay_gold_num, pay_draw_reward, draw_fest_rwd_day_index, crops_cur_contribute, battle_pet_ids)
+	VALUES (acc_id_param,	
+		area_id_param,
+		seq_no_param,
+		crops_contribute_param,
+		money_param,
+		goldenCoins_param,
+		food_param,
+		soldier_num_param,
+		geste_param,
+		honor_param,
+		militory_order_param,
+		VIP_lvl_param,
+		warehouseNum_param,
+		handin_money_param,
+		handin_time_param,
+		majesty_param,
+		subordinate_param,
+		world_area_id_param,
+		instance_id_param,
+		appearance_type_param,
+		charLevel_param,
+		last_logout_time_param,
+		levyEventId_param,
+		drill_ground_lvl_param,
+		tutorialList_param,
+		cumulate_online_time_param,
+		popularity_param,
+		init_general_id_param,
+		zn_flag_name_param,
+		zn_appeance_type_param,
+		zn_is_refuse_battle_param,
+		zn_protect_battle_cd_param,
+		zn_msg_param,
+		forbiddentime_param,
+		freegold_param,
+		charged_cash_param,
+		main_general_id_param,
+		city_param,
+		buildingNums_param,
+		buildList_param,
+		used_tickets_param,
+		chall_best_grade_param,
+		once_owned_param,
+		jades_num_param,
+		speaker_num_param,
+		last_compensation_id_param,
+		total_online_time_param,
+		last_paygold_time_param,
+		pay_gold_num_param,
+		pay_draw_reward_param,
+		draw_fest_rwd_day_index_param,
+		crops_cur_contribute_param,
+		battle_pet_ids_param);
+return 1;
+end;
+$$;
+
+
+ALTER FUNCTION public.char_save(acc_id bigint, area_id integer, seq_no integer, crops_contribute integer, money integer, goldencoins integer, food integer, soldier_num integer, geste integer, honor integer, militory_order integer, vip_lvl integer, warehousenum integer, handin_money integer, handin_time integer, majesty bigint, subordinate text, world_area_id smallint, instance_id integer, appearance_type smallint, charlevel integer, last_logout_time integer, levyeventid integer, drill_ground_lvl smallint, tutoriallist text, cumulate_online_time integer, popularity integer, init_general_id integer, zn_flag_name character varying, zn_appeance_type smallint, zn_is_refuse_battle boolean, zn_protect_battle_cd integer, zn_msg character varying, forbiddentime integer, freegold integer, charged_cash real, main_general_id integer, city text, buildingnums smallint, buildlist smallint, used_tickets text, chall_best_grade integer, once_owned integer, jades_num character varying, speaker_num integer, last_compensation_id integer, total_online_time integer, last_paygold_time integer, pay_gold_num integer, pay_draw_reward character varying, draw_fest_rwd_day_index integer, crops_cur_contribute integer, battle_pet_ids character varying) OWNER TO postgres;
+
+--
+-- Name: char_timer_field_save(bigint, integer, integer, integer, integer, integer, integer, integer, integer, integer, integer, integer, integer, integer, integer, integer, integer, integer, integer, integer, integer, integer, smallint, smallint, integer, integer, integer, integer, smallint, integer, character varying, integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION char_timer_field_save(acc_id bigint, crops_contribute_perday integer, is_draw_salary integer, cumulate_food_num integer, levy_limit_num integer, levy_num integer, force_levy_num integer, gain_goldencoins_num integer, battle_num integer, free_soldier_num integer, fram_harvest_num integer, buy_militory_order_num integer, force_battle_nums integer, is_draw_act_reward integer, activity_value integer, activity_value_time integer, activity_integral integer, res_gain_num integer, free_transfer_soldier integer, transfer_soldier_nums integer, gold_sudden_nums integer, daily_charge_count integer, apply_cup_nums smallint, attacked_nums smallint, reset_time integer, plunder_nums integer, festival_integal integer, festival_gift integer, login_reward smallint, crops_tech_contribute_perday integer, buy_product_nums character varying, day_task_num integer) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename acc_id to acc_id_param;
+rename crops_contribute_perday to crops_contribute_perday_param;
+rename is_draw_salary to is_draw_salary_param;
+rename cumulate_food_num to cumulate_food_num_param;
+rename levy_limit_num to levy_limit_num_param;
+rename levy_num to levy_num_param;
+rename force_levy_num to force_levy_num_param;
+rename gain_goldencoins_num to gain_goldencoins_num_param;
+rename battle_num to battle_num_param;
+rename free_soldier_num to free_soldier_num_param;
+rename fram_harvest_num to fram_harvest_num_param;
+rename buy_militory_order_num to buy_militory_order_num_param;
+rename force_battle_nums to force_battle_nums_param;
+rename is_draw_act_reward to is_draw_act_reward_param;
+rename activity_value to activity_value_param;
+rename activity_value_time to activity_value_time_param;
+rename activity_integral to activity_integral_param;
+rename res_gain_num to res_gain_num_param;
+rename free_transfer_soldier to free_transfer_soldier_param;
+rename transfer_soldier_nums to transfer_soldier_nums_param;
+rename gold_sudden_nums to gold_sudden_nums_param;
+rename daily_charge_count to daily_charge_count_param;
+rename apply_cup_nums to apply_cup_nums_param;
+rename attacked_nums to attacked_nums_param;
+rename reset_time to reset_time_param;
+rename plunder_nums to plunder_nums_param;
+rename festival_integal to festival_integal_param;
+rename festival_gift to festival_gift_param;
+rename login_reward to login_reward_param;
+rename crops_tech_contribute_perday to crops_tech_contribute_perday_param;
+rename buy_product_nums to buy_product_nums_param;
+rename day_task_num to day_task_num_param;
+begin
+	update timer_field set 
+		crops_contribute_perday		= crops_contribute_perday_param,
+		is_draw_salary			= is_draw_salary_param,
+		cumulate_food_num   		= cumulate_food_num_param,
+		levy_limit_num			= levy_limit_num_param,
+		levy_num			= levy_num_param,
+		force_levy_num			= force_levy_num_param,
+		gain_goldencoins_num		= gain_goldencoins_num_param,
+		battle_num			= battle_num_param,
+		free_soldier_num		= free_soldier_num_param,
+		fram_harvest_num		= fram_harvest_num_param,
+		buy_militory_order_num		= buy_militory_order_num_param,
+		force_battle_nums		= force_battle_nums_param,
+		is_draw_act_reward		= is_draw_act_reward_param,
+		activity_value			= activity_value_param,
+		activity_value_time		= activity_value_time_param,
+		activity_integral		= activity_integral_param,
+		res_gain_num			= res_gain_num_param,
+		free_transfer_soldier		= free_transfer_soldier_param,
+		transfer_soldier_nums		= transfer_soldier_nums_param,
+		gold_sudden_nums 		= gold_sudden_nums_param,
+		daily_charge_count 		= daily_charge_count_param,
+		apply_cup_nums 			= apply_cup_nums_param,
+		attacked_nums			= attacked_nums_param,
+		reset_time			= reset_time_param,
+		plunder_nums 			= plunder_nums_param,
+		festival_integal 		= festival_integal_param,
+		festival_gift 			= festival_gift_param,
+		login_reward			= login_reward_param,
+		crops_tech_contribute_perday	= crops_tech_contribute_perday_param,
+		buy_product_nums 		= buy_product_nums_param,
+		day_task_num                    = day_task_num_param
+		where acc_id = acc_id_param;
+	if FOUND then
+		return 1;
+	end if;
+	insert into timer_field(acc_id, crops_contribute_perday, is_draw_salary, cumulate_food_num, levy_limit_num, levy_num, force_levy_num, 
+			gain_goldencoins_num, battle_num, force_battle_nums, free_soldier_num, fram_harvest_num, buy_militory_order_num, is_draw_act_reward,
+			activity_value, activity_value_time, activity_integral, res_gain_num, free_transfer_soldier, transfer_soldier_nums,
+			gold_sudden_nums, daily_charge_count, apply_cup_nums,attacked_nums, reset_time, plunder_nums, festival_integal, festival_gift,
+			login_reward, crops_tech_contribute_perday, buy_product_nums, day_task_num) values(
+			acc_id_param, crops_contribute_perday_param, is_draw_salary_param, cumulate_food_num_param, levy_limit_num_param, levy_num_param, 
+			force_levy_num_param, gain_goldencoins_num_param, battle_num_param, force_battle_nums_param, free_soldier_num_param, fram_harvest_num_param,
+			buy_militory_order_num_param, is_draw_act_reward_param, activity_value_param, activity_value_time_param, activity_integral_param,
+			res_gain_num_param, free_transfer_soldier_param, transfer_soldier_nums_param, gold_sudden_nums_param,
+			daily_charge_count_param,apply_cup_nums_param,attacked_nums_param, reset_time_param, plunder_nums_param, festival_integal_param,
+			festival_gift_param, login_reward_param, crops_tech_contribute_perday_param, buy_product_nums_param, day_task_num_param);	
+	RETURN 1;
+end;
+$$;
+
+
+ALTER FUNCTION public.char_timer_field_save(acc_id bigint, crops_contribute_perday integer, is_draw_salary integer, cumulate_food_num integer, levy_limit_num integer, levy_num integer, force_levy_num integer, gain_goldencoins_num integer, battle_num integer, free_soldier_num integer, fram_harvest_num integer, buy_militory_order_num integer, force_battle_nums integer, is_draw_act_reward integer, activity_value integer, activity_value_time integer, activity_integral integer, res_gain_num integer, free_transfer_soldier integer, transfer_soldier_nums integer, gold_sudden_nums integer, daily_charge_count integer, apply_cup_nums smallint, attacked_nums smallint, reset_time integer, plunder_nums integer, festival_integal integer, festival_gift integer, login_reward smallint, crops_tech_contribute_perday integer, buy_product_nums character varying, day_task_num integer) OWNER TO postgres;
+
+--
+-- Name: create_crops(integer, character varying, bigint, smallint); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION create_crops(id integer, name character varying, ownerid bigint, flag smallint) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename id to id_param;
+rename name to name_param;
+rename ownerid to ownerid_param;
+rename flag to flag_param;
+
+BEGIN
+	insert into crops(id, name, ownerid, boardcontent, starttime, flag) 
+		values (id_param, name_param, ownerid_param, '', LOCALTIMESTAMP, flag_param);
+
+	insert into crops_member(acc_id,positionid,jointime,crops_id)
+				 values(ownerid_param, 0, LOCALTIMESTAMP, id_param);
+
+	return 0;
+end;
+$$;
+
+
+ALTER FUNCTION public.create_crops(id integer, name character varying, ownerid bigint, flag smallint) OWNER TO postgres;
+
+--
+-- Name: crops_transfer_position(bigint, bigint); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION crops_transfer_position(accid bigint, recvaccid bigint, OUT recverpositionid integer, OUT ret integer) RETURNS record
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename accId		to accId_param;
+rename recvAccId	to recvAccId_param;
+cropsPositionId_var int;
+cropsId_var int;
+rank_var int;
+BEGIN
+	select positionId, crops_id into cropsPositionId_var, cropsId_var from crops_member where acc_id=accId_param;
+	
+	select rank into rank_var from crops_member where crops_id=cropsId_var and acc_id=recvAccId_param;
+	if rank_var <= 25 then
+		select positionId into recverPositionId from crops_member where crops_id=cropsId_var and acc_id=recvAccId_param;
+
+		update crops_member set positionId=recverPositionId where acc_id=accId_param;
+		update crops_member set positionId=cropsPositionId_var where acc_id=recvAccId_param;
+		update crops set ownerId=recvAccId_param where id=cropsId_var;
+	else
+		ret:=1;
+		return;
+	end if;
+
+	ret:=0;
+	return;
+
+end;
+$$;
+
+
+ALTER FUNCTION public.crops_transfer_position(accid bigint, recvaccid bigint, OUT recverpositionid integer, OUT ret integer) OWNER TO postgres;
+
+--
+-- Name: crops_update_position_id(bigint, integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION crops_update_position_id(accid bigint, positionid integer, positionmaxnum integer, OUT exchange_accid bigint, OUT exchange_positionid integer, OUT ret integer) RETURNS record
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename	accId to accId_param;
+rename	positionId to positionId_param;
+rename	positionMaxNum to positionMaxNum_param;
+
+positionId_var int;
+
+rank_var int;
+cropsId_var int;
+positionCount int;
+maxRankInThisPosition int;
+BEGIN
+	select rank,crops_id into rank_var, cropsId_var from crops_member where acc_id=accId_param;
+	
+	if positionId_param = 0 then
+		update crops set ownerid=accId_param where id=cropsId_var;
+	end if;
+	
+	select count(*) into positionCount from crops_member where crops_id=cropsId_var and positionid=positionId_param;
+	
+	if positionCount >= positionMaxNum_param then
+
+		/*获取该职位排名最低成员降级*/
+		select max(rank) into maxRankInThisPosition from crops_member where crops_id=cropsId_var and positionid=positionId_param;
+		select acc_id into exchange_accid from crops_member where crops_id=cropsId_var and rank=maxRankInThisPosition;
+		update crops_member set positionId=positionId_param where acc_id=accId_param;
+
+		positionId_var := positionId_param + 1;
+		update crops_member set positionid=positionId_var where crops_id=cropsId_var and acc_id=exchange_accid;
+
+		exchange_positionId	:= positionId_var;
+
+	else
+		update crops_member set positionid=positionId_param where acc_id=accId_param;
+		
+		exchange_accId		:= 0;
+		exchange_positionId	:= 0;
+	end if;
+	
+	ret:=0;
+	return;
+end;
+$$;
+
+
+ALTER FUNCTION public.crops_update_position_id(accid bigint, positionid integer, positionmaxnum integer, OUT exchange_accid bigint, OUT exchange_positionid integer, OUT ret integer) OWNER TO postgres;
+
+--
+-- Name: delete_crops(integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION delete_crops(cropsid integer, OUT ret integer) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename cropsId to cropsId_param;
+cropsOwnerId bigint;
+
+BEGIN
+	delete from crops_member where crops_id=cropsId_param;
+	delete from crops_apply_member where crops_id=cropsId_param;
+	delete from crops_technology where crops_id=cropsId_param;
+	delete from crops where id=cropsId_param;
+
+	ret:=0;
+	return;
+end;
+$$;
+
+
+ALTER FUNCTION public.delete_crops(cropsid integer, OUT ret integer) OWNER TO postgres;
+
+--
+-- Name: ganaral_id_save(bigint, character varying); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION ganaral_id_save(owner_id bigint, genaral_ids character varying) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename owner_id to owner_id_param;
+rename genaral_ids to genaral_ids_param;
+BEGIN
+	update recruite_genaral set
+		genaral_ids = genaral_ids_param
+		where owner_id = owner_id_param;
+	if FOUND then
+		return 1;
+	end if;
+	insert into recruite_genaral(owner_id,genaral_ids)
+		values(owner_id_param, genaral_ids_param);
+	return 1;
+end;
+$$;
+
+
+ALTER FUNCTION public.ganaral_id_save(owner_id bigint, genaral_ids character varying) OWNER TO postgres;
+
+--
+-- Name: genaral_save(bigint, integer, integer, smallint, integer, integer, smallint, integer, integer, integer, smallint, integer, integer, smallint, integer, integer, character varying); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION genaral_save(owner_id bigint, general_id integer, general_lvl integer, isrecruited smallint, soldier_nums integer, exp integer, reincarnation_nums smallint, soldier_id1 integer, soldier_id2 integer, train_over_time integer, train_type smallint, battler_soldier integer, train_time_begin_tick integer, transfer_soldier_nums smallint, rebuild_soldier_id1 integer, rebuild_soldier_id2 integer, measure_str character varying) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename	owner_id to owner_id_param;
+rename	general_id to general_id_param;
+rename	general_lvl to general_lvl_param;
+rename 	isrecruited to isrecruited_param;
+rename	soldier_nums  to soldier_nums_param;
+rename	exp to exp_param;
+rename	reincarnation_nums to reincarnation_nums_param;
+rename	soldier_id1 to soldier_id1_param;
+rename	soldier_id2 to soldier_id2_param;
+rename	train_over_time to train_over_time_param;
+rename	train_type to train_type_param;
+rename	battler_soldier to battler_soldier_param;
+rename	train_time_begin_tick to train_time_begin_tick_param;
+rename	transfer_soldier_nums to transfer_soldier_nums_param;
+rename	rebuild_soldier_id1 to rebuild_soldier_id1_param;
+rename	rebuild_soldier_id2 to rebuild_soldier_id2_param;
+rename  measure_str to measure_str_param;
+BEGIN
+	update general set
+		general_lvl = general_lvl_param,
+		isrecruited = isrecruited_param,
+		soldier_nums = soldier_nums_param,
+		current_exp = exp_param,
+		reincarnation_nums =reincarnation_nums_param,
+		soldier_id1 = soldier_id1_param,
+		soldier_id2 = soldier_id2_param,
+		train_over_time = train_over_time_param,
+		train_type = train_type_param,
+		battler_soldier	= battler_soldier_param,
+		train_time_begin_tick = train_time_begin_tick_param,
+		transfer_soldier_nums = transfer_soldier_nums_param,
+		rebuild_soldier_id1 = rebuild_soldier_id1_param,
+		rebuild_soldier_id2 = rebuild_soldier_id2_param,
+		measure_str = measure_str_param
+	where owner_id = owner_id_param and general_id = general_id_param; 
+
+	if FOUND then
+		return 1;
+	end if;
+
+	insert into general(owner_id,general_id, general_lvl, isrecruited, soldier_nums, current_exp, reincarnation_nums, 
+			    soldier_id1, soldier_id2, train_over_time, train_type, battler_soldier,
+			    train_time_begin_tick, transfer_soldier_nums, rebuild_soldier_id1, rebuild_soldier_id2, measure_str)
+		values(owner_id_param,general_id_param, general_lvl_param, isrecruited_param, soldier_nums_param, 
+		exp_param, reincarnation_nums_param, soldier_id1_param,
+		soldier_id2_param, train_over_time_param, 
+		train_type_param,battler_soldier_param, train_time_begin_tick_param,
+		transfer_soldier_nums_param, rebuild_soldier_id1_param,
+		rebuild_soldier_id2_param, measure_str_param);
+	return 1;
+end;
+$$;
+
+
+ALTER FUNCTION public.genaral_save(owner_id bigint, general_id integer, general_lvl integer, isrecruited smallint, soldier_nums integer, exp integer, reincarnation_nums smallint, soldier_id1 integer, soldier_id2 integer, train_over_time integer, train_type smallint, battler_soldier integer, train_time_begin_tick integer, transfer_soldier_nums smallint, rebuild_soldier_id1 integer, rebuild_soldier_id2 integer, measure_str character varying) OWNER TO postgres;
+
+--
+-- Name: giveup_follower(bigint, bigint); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION giveup_follower(accid bigint, followerid bigint) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename	accId to accId_param;
+rename	followerId to followerId_param;
+followerIds varchar;
+curFollowerId int;
+prevPoint int;
+curPoint int;
+tmpFollowerIds varchar;
+BEGIN
+	select subordinate into followerIds from character where id=accId_param;
+	followerIds = ',' || followerIds || ',';
+	tmpFollowerIds = replace(followerIds,cast(followerId_param as varchar), '0');	
+	followerIds = substring(tmpFollowerIds from 2 for (length(tmpFollowerIds)-2));
+
+	update character set subordinate=followerIds where id=accId_param;
+	update character set majesty=-1,handin_money=0,handin_time=0 where id=followerId_param;
+	
+	return 0;
+end;
+$$;
+
+
+ALTER FUNCTION public.giveup_follower(accid bigint, followerid bigint) OWNER TO postgres;
+
+--
+-- Name: player_technology_save(bigint, character varying); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION player_technology_save(accid bigint, techstr character varying) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename accid to accid_param;
+rename techstr to techstr_param;
+
+BEGIN
+	update technology set techstr=techstr_param where acc_id=accid_param;
+
+	if FOUND then
+		return 1;
+	end if;
+
+	insert into technology(acc_id, techstr) values(accid_param, techstr_param);
+	return 1;
+end;
+$$;
+
+
+ALTER FUNCTION public.player_technology_save(accid bigint, techstr character varying) OWNER TO postgres;
+
+--
+-- Name: save_achievement(bigint, integer, integer, character varying, character varying, character varying); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION save_achievement(accid bigint, instance_id integer, cur_score integer, complete_ranktype character varying, challenge_serial character varying, draw_reward_score character varying) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename	accid to accid_param;
+rename instance_id to instance_id_param;
+rename cur_score to cur_score_param;
+rename complete_ranktype to complete_ranktype_param;
+rename challenge_serial to challenge_serial_param;
+rename draw_reward_score to draw_reward_score_param;
+BEGIN
+	update achievement set
+		cur_score = cur_score_param,
+		complete_ranktype = complete_ranktype_param,
+		challenge_serial = challenge_serial_param,
+		draw_reward_score = draw_reward_score_param
+		where acc_id=accid_param and instance_id = instance_id_param;
+	if FOUND then
+		return 1;
+	end if;
+	insert into achievement(acc_id, instance_id, cur_score, complete_ranktype, challenge_serial, draw_reward_score) 
+		values(accid_param, instance_id_param, cur_score_param, complete_ranktype_param, challenge_serial_param, draw_reward_score_param);
+	return 1;
+end;
+$$;
+
+
+ALTER FUNCTION public.save_achievement(accid bigint, instance_id integer, cur_score integer, complete_ranktype character varying, challenge_serial character varying, draw_reward_score character varying) OWNER TO postgres;
+
+--
+-- Name: save_broad_msg(integer, integer, text); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION save_broad_msg(id integer, duration integer, msg_content text) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename id to id_param;
+rename duration to duration_param;
+rename msg_content to msg_content_param;
+BEGIN
+	if exists(select id from broad_msg where id=id_param) then
+		update broad_msg set duration=duration_param, msg_content=msg_content_param
+		where id=id_param;
+	else
+		insert into broad_msg(id, duration, msg_content) 
+		values(
+		id_param,
+		duration_param,
+		msg_content_param
+		);
+	end if;
+	return 1;
+end
+$$;
+
+
+ALTER FUNCTION public.save_broad_msg(id integer, duration integer, msg_content text) OWNER TO postgres;
+
+--
+-- Name: save_cd_time(bigint, text, integer, integer, integer, integer, integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION save_cd_time(acc_id bigint, building_cd_time text, spin_cd_time integer, join_crops_cd_time integer, draft_cd_time integer, city_farm_cd_time integer, plunder_cd_time integer, dare_chall_cd_time integer) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename acc_id to acc_id_param;
+rename building_cd_time to building_cd_time_param;
+rename spin_cd_time to spin_cd_time_param;
+rename join_crops_cd_time to join_crops_cd_time_param;
+rename draft_cd_time to	draft_cd_time_param;
+rename city_farm_cd_time to city_farm_cd_time_param;
+rename plunder_cd_time to plunder_cd_time_param;
+rename dare_chall_cd_time to dare_chall_cd_time_param;
+BEGIN
+	update cdtime set
+		building_cd_time			= building_cd_time_param,
+		spin_cd_time				= spin_cd_time_param,
+		join_crops_cd_time			= join_crops_cd_time_param,
+		draft_cd_time				= draft_cd_time_param,
+		city_farm_cd_time			= city_farm_cd_time_param,
+		plunder_cd_time 			= plunder_cd_time_param,
+		dare_chall_cd_time 			= dare_chall_cd_time_param
+		where acc_id = acc_id_param;
+	if FOUND then
+		return 1;
+	end if;
+
+	insert into cdtime(acc_id, building_cd_time, spin_cd_time, join_crops_cd_time,
+			draft_cd_time,city_farm_cd_time, plunder_cd_time, dare_chall_cd_time) 
+		values(acc_id_param, building_cd_time_param, spin_cd_time_param, 
+			join_crops_cd_time_param, draft_cd_time_param, city_farm_cd_time_param,
+			plunder_cd_time_param, dare_chall_cd_time_param);
+		return 1;
+end;
+$$;
+
+
+ALTER FUNCTION public.save_cd_time(acc_id bigint, building_cd_time text, spin_cd_time integer, join_crops_cd_time integer, draft_cd_time integer, city_farm_cd_time integer, plunder_cd_time integer, dare_chall_cd_time integer) OWNER TO postgres;
+
+--
+-- Name: save_email(character varying, smallint, character varying, bigint, bigint, smallint, character varying, character varying, integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION save_email(mail_subject_param character varying, mail_type_param smallint, mail_note_param character varying, mail_sender_param bigint, mail_recver_param bigint, mail_status_param smallint, send_name_param character varying, recv_name_param character varying, mail_year_param integer, mail_time_param integer) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+retId bigint;
+
+BEGIN	
+	insert into mail(mail_subject, mail_type, mail_note, mail_sender, mail_recver, mail_status, send_name, recv_name, mail_year, mail_time)
+	values(mail_subject_param, mail_type_param, mail_note_param, mail_sender_param, mail_recver_param, mail_status_param, send_name_param, recv_name_param, mail_year_param, mail_time_param);
+	select into retId currval('mail_mail_autoid_seq');
+	return retId;
+end;
+$$;
+
+
+ALTER FUNCTION public.save_email(mail_subject_param character varying, mail_type_param smallint, mail_note_param character varying, mail_sender_param bigint, mail_recver_param bigint, mail_status_param smallint, send_name_param character varying, recv_name_param character varying, mail_year_param integer, mail_time_param integer) OWNER TO postgres;
+
+--
+-- Name: save_equipment(bigint, bigint, integer, integer, integer, integer, integer, integer, smallint, integer, character varying, bigint); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION save_equipment(accid bigint, epid bigint, eptemplateid integer, eplevel integer, epsubeffecttype integer, epsubeffectvalue integer, epfighterid integer, epexpiretime integer, epstate smallint, unlocktime integer, gem_str character varying, petid bigint) RETURNS bigint
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename	accId to accId_param;
+rename	epId to epId_param;
+rename	epTemplateId to epTemplateId_param;
+rename	epLevel to epLevel_param;
+rename  epsubeffecttype to epsubeffecttype_param;
+rename  epsubeffectvalue to epsubeffectvalue_param;
+rename	epFighterId to epFighterId_param;
+rename	epExpireTime to epExpireTime_param;
+rename  epstate	to epstate_param;
+rename  unlocktime to unlocktime_param;
+rename  gem_str to gem_str_param;
+rename  petid to petid_param;
+ret bigint;
+BEGIN
+	if epId_param = 0 then
+		insert into equipment(eptemplateid, eplevel, ep_sub_effect_type, ep_sub_effect_value, epownerid, epfighterid, epexpiretime, gem_str, petid)
+			values(epTemplateId_param, epLevel_param, epsubeffecttype_param, epsubeffectvalue_param, accId_param, epFighterId_param, epExpireTime_param, gem_str_param, petid_param);
+		select currval('equipment_epid_seq') into ret;
+	else 
+		update equipment set
+			eptemplateid			= epTemplateId_param,
+			eplevel				= epLevel_param,
+			ep_sub_effect_type		= epsubeffecttype_param,
+			ep_sub_effect_value		= epsubeffectvalue_param,
+			epfighterid			= epFighterId_param,
+			epexpiretime			= epExpireTime_param,
+			eptimestamp			= now(),
+			epstate				= epstate_param,
+			unlocktime                      = unlocktime_param,
+			gem_str				= gem_str_param,
+			petid				= petid_param
+			where epid = epId_param;
+		ret = epId_param;
+	end if;
+	return ret;
+end;
+$$;
+
+
+ALTER FUNCTION public.save_equipment(accid bigint, epid bigint, eptemplateid integer, eplevel integer, epsubeffecttype integer, epsubeffectvalue integer, epfighterid integer, epexpiretime integer, epstate smallint, unlocktime integer, gem_str character varying, petid bigint) OWNER TO postgres;
+
+--
+-- Name: save_farm(bigint, text); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION save_farm(acc_id bigint, res_info text) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename	acc_id to acc_id_param;
+rename	res_info to res_info_param;
+BEGIN
+	update farm set
+		res_info			= res_info_param
+		where acc_id = acc_id_param;
+	if FOUND then
+		return 1;
+	end if;
+	insert into farm(acc_id, res_info) 
+		  values(acc_id_param, res_info_param);
+	return 1;
+end;
+$$;
+
+
+ALTER FUNCTION public.save_farm(acc_id bigint, res_info text) OWNER TO postgres;
+
+--
+-- Name: save_festival(character varying, character varying, character varying, character varying, integer, integer, integer, integer, smallint); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION save_festival(fname character varying, fpicname character varying, fstarttime character varying, fendtime character varying, flevyadd integer, fgesteadd integer, ftrainadd integer, forderadd integer, fstate smallint) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename fname to name_param;
+rename fpicname to picname_param;
+rename fstarttime to starttime_param;
+rename fendtime to endtime_param;
+rename flevyadd to levyadd_param;
+rename fgesteadd to gesteadd_param;
+rename ftrainadd to trainadd_param;
+rename forderadd to orderadd_param;
+rename fstate to state_param;
+BEGIN
+	update festival set
+		picname			= picname_param,
+		starttime		= starttime_param,
+		endtime			= endtime_param,
+		levyadd			= levyadd_param,
+		gesteadd		= gesteadd_param,
+		trainadd		= trainadd_param,
+		orderadd		= orderadd_param,
+		state  			= state_param
+		where name = name_param;
+
+	if FOUND then
+		return 1;
+	end if;
+
+	insert into festival(name, picname, starttime, endtime, levyadd, gesteadd, trainadd, state, orderadd)
+		values(name_param, picname_param, starttime_param, endtime_param, levyadd_param, 
+		gesteadd_param, trainadd_param, state_param, orderadd_param);
+	return 1;
+end;
+$$;
+
+
+ALTER FUNCTION public.save_festival(fname character varying, fpicname character varying, fstarttime character varying, fendtime character varying, flevyadd integer, fgesteadd integer, ftrainadd integer, forderadd integer, fstate smallint) OWNER TO postgres;
+
+--
+-- Name: save_formation(bigint, integer, text, smallint, smallint); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION save_formation(charac_id bigint, formation_id integer, genaral_info text, lvl smallint, "default" smallint) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename charac_id  to charac_id_param;
+rename 	formation_id  to formation_id_param;
+rename genaral_info to genaral_info_param;
+rename lvl   to lvl_param;
+rename "default" to default_param;
+BEGIN
+	update formation set
+		genaral_info = genaral_info_param,
+		lvl = lvl_param, is_default = default_param 
+		where charac_id = charac_id_param and formation_id = formation_id_param;
+	if FOUND then
+		return 1;
+	end if;
+	insert into formation( charac_id, formation_id, genaral_info, lvl, is_default)
+		values(charac_id_param, formation_id_param, genaral_info_param, lvl_param, default_param );
+	return 1;
+end;
+$$;
+
+
+ALTER FUNCTION public.save_formation(charac_id bigint, formation_id integer, genaral_info text, lvl smallint, "default" smallint) OWNER TO postgres;
+
+--
+-- Name: save_instance_npc_guide(integer, integer, character varying); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION save_instance_npc_guide(instance_id integer, npc_id integer, npc_battle_rec character varying) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename	instance_id to instance_id_param;
+rename	npc_id to npc_id_param;
+rename	npc_battle_rec to npc_battle_rec_param;
+
+BEGIN
+	if exists( select * from instance_npc_guide where instance_id = instance_id_param and npc_id = npc_id_param ) then
+		update instance_npc_guide set
+			npc_battle_rec = npc_battle_rec_param
+		where instance_id = instance_id_param and npc_id = npc_id_param; 
+	else
+		insert into instance_npc_guide(instance_id, npc_id, npc_battle_rec)
+					 values(instance_id_param, npc_id_param, npc_battle_rec_param);
+	end if;
+	return 1;
+end;
+$$;
+
+
+ALTER FUNCTION public.save_instance_npc_guide(instance_id integer, npc_id integer, npc_battle_rec character varying) OWNER TO postgres;
+
+--
+-- Name: save_ip_bonus(character varying, character varying, timestamp without time zone, timestamp without time zone, character varying); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION save_ip_bonus(mark character varying, ip character varying, starttime timestamp without time zone, endtime timestamp without time zone, bonusadd character varying) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename mark to mark_param;
+rename ip to ip_param;
+rename starttime to starttime_param;
+rename endtime to endtime_param;
+rename bonusadd to bonusadd_param;
+
+BEGIN
+	update ip_bonus set
+		mark 			= mark_param,
+		starttime		= starttime_param,
+		endtime			= endtime_param,
+		bonusadd 		= bonusadd_param
+		where ip = ip_param;
+
+	if FOUND then
+		return 1;
+	end if;
+
+	insert into ip_bonus(mark, ip, starttime, endtime, bonusadd)
+		values(mark_param, ip_param, starttime_param, endtime_param, bonusadd_param);
+	return 1;
+end;
+$$;
+
+
+ALTER FUNCTION public.save_ip_bonus(mark character varying, ip character varying, starttime timestamp without time zone, endtime timestamp without time zone, bonusadd character varying) OWNER TO postgres;
+
+--
+-- Name: save_item(bigint, character varying, character varying, character varying, character varying, character varying, character varying, character varying); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION save_item(accid bigint, materials_str character varying, gemstone_str character varying, prop_str character varying, farm_product_str character varying, ranch_product_str character varying, mine_product_str character varying, workshop_product_str character varying) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename accid to accid_param;
+rename materials_str to materials_str_param;
+rename gemstone_str to gemstone_str_param;
+rename prop_str to prop_str_param;
+rename farm_product_str to farm_product_str_param;
+rename ranch_product_str to ranch_product_str_param;
+rename mine_product_str to mine_product_str_param;
+rename workshop_product_str to workshop_product_str_param;
+BEGIN
+	update item set
+		materials_str 		= materials_str_param,
+		gemstone_str            = gemstone_str_param,
+		prop_str                = prop_str_param,
+		farm_product_str 	= farm_product_str_param,
+		ranch_product_str 	= ranch_product_str_param,
+		mine_product_str	= mine_product_str_param,
+		workshop_product_str 	= workshop_product_str_param
+		where accid = accid_param;
+
+	if FOUND then
+		return 1;
+	end if;
+
+	insert into item(accid, materials_str, gemstone_str, prop_str, farm_product_str, ranch_product_str, mine_product_str, workshop_product_str)
+		values(accid_param, materials_str_param, gemstone_str_param, prop_str_param, farm_product_str_param, ranch_product_str_param, mine_product_str_param, workshop_product_str_param);
+	return 1;
+end;
+$$;
+
+
+ALTER FUNCTION public.save_item(accid bigint, materials_str character varying, gemstone_str character varying, prop_str character varying, farm_product_str character varying, ranch_product_str character varying, mine_product_str character varying, workshop_product_str character varying) OWNER TO postgres;
+
+--
+-- Name: save_item_undraw(bigint, integer, bigint, smallint, integer, integer, smallint); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION save_item_undraw(id bigint, itemid integer, ownerid bigint, itemtype smallint, itemcount integer, expiretime integer, state smallint) RETURNS bigint
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename	id to id_param;
+rename	itemid to itemid_param;
+rename	ownerid to ownerid_param;
+rename  itemtype to itemtype_param;
+rename  itemcount to itemcount_param;
+rename	expiretime to expiretime_param;
+rename	state to state_param;
+
+ret bigint;
+BEGIN
+	if id_param = 0 then
+		insert into item_undraw(itemid, ownerid, itemtype, itemcount, expiretime, state)
+			values(itemid_param, ownerid_param, itemtype_param, itemcount_param, expiretime_param, state_param);
+		select currval('item_undraw_id_seq') into ret;
+	else 
+		update item_undraw set
+			itemid		= itemid_param,
+                        itemtype       	= itemtype_param,
+			itemcount	= itemcount_param,
+			expiretime     	= expiretime_param,
+			state          	= state_param
+			where id 	= id_param;
+		ret = id_param;
+	end if;
+	return ret;
+end;
+$$;
+
+
+ALTER FUNCTION public.save_item_undraw(id bigint, itemid integer, ownerid bigint, itemtype smallint, itemcount integer, expiretime integer, state smallint) OWNER TO postgres;
+
+--
+-- Name: save_pay_gift_info(character varying, smallint); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION save_pay_gift_info(ticket character varying, stat smallint) RETURNS void
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+rename stat to stat_param;
+rename ticket to ticket_param;
+BEGIN
+if exists(select id from paygift where ticket = ticket_param) then
+	update paygift set stat=stat_param where ticket = ticket_param;
+else
+	insert into paygift(ticket, stat) values (ticket_param, stat_param);
+end if;
+return ;
+end;
+$$;
+
+
+ALTER FUNCTION public.save_pay_gift_info(ticket character varying, stat smallint) OWNER TO postgres;
+
+--
+-- Name: save_pet(bigint, bigint, integer, integer, integer, integer, character varying, character varying, integer, smallint); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION save_pet(accid bigint, id bigint, xml_id integer, general_id integer, level integer, experience integer, skill_str character varying, battle_skill_str character varying, expire_time integer, state smallint) RETURNS bigint
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename accid to accid_param;
+rename id to id_param;
+rename xml_id to xml_id_param;
+rename general_id to general_id_param;
+rename level to level_param;
+rename experience to experience_param;
+rename skill_str to skill_str_param;
+rename battle_skill_str to battle_skill_str_param;
+rename expire_time to expire_time_param;
+rename state to state_param;
+ret bigint;
+BEGIN
+	if id_param = 0 then
+		insert into pet(xml_id, owner_id, general_id, level, experience, skill_str, battle_skill_str, expire_time, state)
+			values(xml_id_param, accid_param, general_id_param, level_param, experience_param, skill_str_param, battle_skill_str_param, expire_time_param, state_param);
+		select currval('pet_id_seq') into ret;
+	else 
+		update pet set
+			xml_id			= xml_id_param,
+			general_id 		= general_id_param,
+			level 			= level_param,
+			experience 		= experience_param,
+			skill_str 		= skill_str_param,
+			battle_skill_str 	= battle_skill_str_param,
+			expire_time 		= expire_time_param,
+			state 			= state_param,
+			timestamp		= now()
+			where id = id_param;
+		ret = id_param;
+	end if;
+	return ret;
+end;
+$$;
+
+
+ALTER FUNCTION public.save_pet(accid bigint, id bigint, xml_id integer, general_id integer, level integer, experience integer, skill_str character varying, battle_skill_str character varying, expire_time integer, state smallint) OWNER TO postgres;
+
+--
+-- Name: save_rank_info(bigint, integer, integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION save_rank_info(accid bigint, rankvalue integer, ranktype integer, ranktime integer) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename accid to accid_param;
+rename rankvalue to rankvalue_param;
+rename ranktype to ranktype_param;
+rename ranktime to ranktime_param;
+BEGIN
+	update rank set rankvalue=rankvalue_param,  ranktime=ranktime_param where accid=accid_param and ranktype=ranktype_param;
+
+	if FOUND then
+		return 1;
+	end if;
+
+	insert into rank( accid, rankvalue, ranktype,ranktime) values(accid_param, rankvalue_param, ranktype_param,ranktime_param);
+	return 0;
+	
+
+end
+$$;
+
+
+ALTER FUNCTION public.save_rank_info(accid bigint, rankvalue integer, ranktype integer, ranktime integer) OWNER TO postgres;
+
+--
+-- Name: save_server_params(character varying, character varying); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION save_server_params(key_str character varying, value_str character varying) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename key_str to key_str_param;
+rename value_str to value_str_param;
+BEGIN
+	update server_params set
+		value_str = value_str_param
+		where key_str = key_str_param;
+	if FOUND then
+		return 1;
+	end if;
+	insert into server_params(key_str, value_str) 
+		values(key_str_param, value_str_param);
+	return 1;
+end;
+$$;
+
+
+ALTER FUNCTION public.save_server_params(key_str character varying, value_str character varying) OWNER TO postgres;
+
+--
+-- Name: save_story_progress(bigint, character varying); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION save_story_progress(accid bigint, progress character varying) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename accid  to accid_param;
+rename	progress  to progress_param;
+BEGIN
+	update story_progress set
+	progress=progress_param
+	where accid = accid_param;
+	
+	if FOUND then
+		return 1;
+	end if;
+	
+	insert into story_progress(accid, progress)
+	values(accid_param, progress_param);
+	return 1;
+end;
+$$;
+
+
+ALTER FUNCTION public.save_story_progress(accid bigint, progress character varying) OWNER TO postgres;
+
+--
+-- Name: save_task_info(bigint, text, text, text, text, text, text, smallint); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION save_task_info(acc_id bigint, completed_main_task text, cur_main_task text, completed_sub_task text, cur_sub_task text, completed_day_task text, cur_day_task text, needs_update smallint) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename	acc_id	to acc_id_param;
+rename	completed_main_task	to completed_main_task_param;
+rename	cur_main_task		to cur_main_task_param;
+rename	completed_sub_task	to completed_sub_task_param;
+rename	cur_sub_task		to cur_sub_task_param;
+rename	completed_day_task	to completed_day_task_param;
+rename	cur_day_task		to cur_day_task_param;
+rename  needs_update		to needs_update_param;
+BEGIN
+	update task set
+		completed_main_task		= completed_main_task_param,
+		cur_main_task			= cur_main_task_param,
+		completed_sub_task		= completed_sub_task_param,
+		cur_sub_task			= cur_sub_task_param,
+		completed_day_task		= completed_day_task_param,
+		cur_day_task			= cur_day_task_param,
+		needs_update			= needs_update_param
+		where acc_id = acc_id_param;
+	if FOUND then
+		return 1;
+	end if;
+	insert into task(acc_id, completed_main_task, cur_main_task,
+			completed_sub_task, cur_sub_task, completed_day_task, cur_day_task) 
+		  values(acc_id_param, completed_main_task_param, cur_main_task_param,
+			completed_sub_task_param, cur_sub_task_param, completed_day_task_param, cur_day_task_param);
+	return 1;
+end;
+$$;
+
+
+ALTER FUNCTION public.save_task_info(acc_id bigint, completed_main_task text, cur_main_task text, completed_sub_task text, cur_sub_task text, completed_day_task text, cur_day_task text, needs_update smallint) OWNER TO postgres;
+
+--
+-- Name: save_workshop(bigint, integer, integer, integer, integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION save_workshop(acc_id bigint, level integer, experience integer, strength integer, purchase_nums integer, tutor_state integer) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename acc_id to acc_id_param;
+rename level to level_param;
+rename experience to experience_param;
+rename strength to strength_param;
+rename purchase_nums to purchase_nums_param;
+rename tutor_state to tutor_state_param;
+BEGIN
+	update workshop set
+		level 		= level_param,
+		experience	= experience_param,
+		strength 	= strength_param,
+		purchase_nums 	= purchase_nums_param,
+		tutor_state 	= tutor_state_param
+		where acc_id = acc_id_param;
+	if FOUND then
+		return 1;
+	end if;
+	insert into workshop(acc_id, level, experience, strength, purchase_nums, tutor_state)
+		values(acc_id_param, level_param, experience_param, strength_param, purchase_nums_param, tutor_state_param);
+	return 1;
+
+end;
+$$;
+
+
+ALTER FUNCTION public.save_workshop(acc_id bigint, level integer, experience integer, strength integer, purchase_nums integer, tutor_state integer) OWNER TO postgres;
+
+--
+-- Name: saveinstanceprocess(bigint, character varying, character varying, integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION saveinstanceprocess(charac_id bigint, process character varying, senior_npc_nums character varying, activity_index integer) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename charac_id  to charac_id_param;
+rename	process  to process_param;
+rename	senior_npc_nums  to senior_npc_nums_param;
+rename   activity_index  to activity_index_param;
+BEGIN
+	if exists( select * from instance_progress  where charac_id = charac_id_param) then
+		update instance_progress set
+		progress = process_param,
+		senior_npc_nums = senior_npc_nums_param,
+		activity_index  = activity_index_param
+		where charac_id = charac_id_param;
+	else
+		insert into instance_progress(charac_id, progress, senior_npc_nums, activity_index)
+		values( charac_id_param, process_param, senior_npc_nums_param, activity_index_param);
+	end if;
+	return 1;
+end;
+$$;
+
+
+ALTER FUNCTION public.saveinstanceprocess(charac_id bigint, process character varying, senior_npc_nums character varying, activity_index integer) OWNER TO postgres;
+
+--
+-- Name: saveresdata(smallint, smallint, integer, bigint, integer, smallint, integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION saveresdata(area_zone_id smallint, zone_id smallint, world_area_id integer, owner_id bigint, keep_time integer, plunder_flag smallint, plunder_cd_time integer, plundered_nums integer) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename	area_zone_id	to area_zone_id_param;
+rename	zone_id	to zone_id_param;
+rename	world_area_id to world_area_id_param;
+rename	owner_id to owner_id_param;
+rename	keep_time to keep_time_param;
+rename	plunder_flag to plunder_flag_param;
+rename  plunder_cd_time to plunder_cd_time_param;
+rename  plundered_nums to plundered_nums_param;
+
+BEGIN
+	if exists (select * from Res_zone_data where world_area_id = world_area_id_param and area_zone_id = area_zone_id_param and zone_index = zone_id_param ) then
+		update Res_zone_data set 
+		
+			owner_id = owner_id_param,
+			keep_time = keep_time_param,
+			plunder_flag = plunder_flag_param,
+			plunder_cd_time = plunder_cd_time_param,
+			plundered_nums = plundered_nums_param
+		where world_area_id = world_area_id_param and area_zone_id = area_zone_id_param and zone_index = zone_id_param;
+	else
+		insert into Res_zone_data(owner_id, world_area_id, area_zone_id, zone_index, keep_time, plunder_flag, plunder_cd_time, plundered_nums)
+			values(owner_id_param, world_area_id_param, area_zone_id_param, zone_id_param ,keep_time_param, plunder_flag_param, plunder_cd_time_param, plundered_nums_param);
+	end if;
+	return 1;
+end;
+$$;
+
+
+ALTER FUNCTION public.saveresdata(area_zone_id smallint, zone_id smallint, world_area_id integer, owner_id bigint, keep_time integer, plunder_flag smallint, plunder_cd_time integer, plundered_nums integer) OWNER TO postgres;
+
+--
+-- Name: update_activity_day(integer, bigint, bigint, character varying, character varying); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION update_activity_day(activitytype integer, starttime bigint, endtime bigint, activityname character varying, activityvalue character varying) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename activitytype to activitytype_param;
+rename starttime to starttime_param;
+rename endtime to endtime_param;
+rename activityname to activityname_param;
+rename activityvalue to activityvalue_param;
+ret integer;
+BEGIN
+	update activity_day set starttime=0, endtime=0 where activitytype = activitytype_param; 
+	insert into activity_day(activitytype,starttime,endtime,activityname,activityvalue) values(activitytype_param,starttime_param,endtime_param,activityname_param,activityvalue_param);
+	
+	select into ret max(activityindex) from activity_day where activitytype=activitytype_param;
+	return ret;
+end
+$$;
+
+
+ALTER FUNCTION public.update_activity_day(activitytype integer, starttime bigint, endtime bigint, activityname character varying, activityvalue character varying) OWNER TO postgres;
+
+--
+-- Name: update_crops(integer, character varying, bigint, character varying, integer, smallint, smallint, integer, integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION update_crops(id integer, name character varying, ownerid bigint, boardcontent character varying, disband_cd integer, flag smallint, taskid smallint, wealth integer, experience integer, level integer) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename id to id_param;
+rename name to name_param;
+rename ownerid to ownerid_param;
+rename boardcontent to boardcontent_param;
+rename disband_cd to disband_cd_param;
+rename flag to flag_param;
+rename taskid to taskid_param;
+rename wealth to wealth_param;
+rename experience to experience_param;
+rename level to level_param;
+
+BEGIN
+	update crops set
+		name 		= name_param,
+		ownerid 	= ownerid_param,
+		boardcontent 	= boardcontent_param,
+		disband_cd 	= disband_cd_param,
+		flag 		= flag_param,
+		taskid 		= taskid_param,
+		wealth 		= wealth_param,
+		experience 	= experience_param,
+		level 		= level_param
+	where id = id_param;
+
+	if FOUND then
+		return 1;
+	end if;
+
+	insert into crops(id, name, ownerid, boardcontent, starttime, disband_cd, flag, taskid, wealth, experience, level) 
+		values (id_param, name_param, ownerid_param, boardcontent_param, LOCALTIMESTAMP,
+			disband_cd_param, flag_param, taskid_param, wealth_param, experience_param, level_param);
+	return 1;
+end;
+$$;
+
+
+ALTER FUNCTION public.update_crops(id integer, name character varying, ownerid bigint, boardcontent character varying, disband_cd integer, flag smallint, taskid smallint, wealth integer, experience integer, level integer) OWNER TO postgres;
+
+--
+-- Name: update_crops_member(bigint, integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION update_crops_member(acc_id bigint, positionid integer, crops_id integer) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename acc_id to acc_id_param;
+rename positionid to positionid_param;
+rename crops_id to crops_id_param;
+  
+BEGIN
+	update crops_member set
+		positionid	= positionid_param
+	where acc_id = acc_id_param and crops_id = crops_id_param;
+
+	if FOUND then
+		return 1;
+	end if;
+
+	insert into crops_member(acc_id, positionid, jointime, crops_id) 
+		values (acc_id_param, 3, LOCALTIMESTAMP,crops_id_param);
+	return 1;
+end;
+$$;
+
+
+ALTER FUNCTION public.update_crops_member(acc_id bigint, positionid integer, crops_id integer) OWNER TO postgres;
+
+--
+-- Name: update_crops_technology(integer, integer, integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION update_crops_technology(techid integer, techlevel integer, costplan integer, crops_id integer) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename techid to techid_param;
+rename techlevel to techlevel_param;
+rename costplan to costplan_param;
+rename crops_id to crops_id_param;
+  
+BEGIN
+	update crops_technology set
+		techlevel	= techlevel_param,
+		costplan	= costplan_param
+	where techid = techid_param and crops_id = crops_id_param;
+
+	if FOUND then
+		return 1;
+	end if;
+
+	insert into crops_technology(techid, techlevel, costplan, crops_id) 
+		values (techid_param, techlevel_param, costplan_param, crops_id_param);
+	return 1;
+end;
+$$;
+
+
+ALTER FUNCTION public.update_crops_technology(techid integer, techlevel integer, costplan integer, crops_id integer) OWNER TO postgres;
+
+--
+-- Name: update_datastatistic(text, character varying); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION update_datastatistic(svrinfo text, datatype character varying) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename datatype to datatype_param;
+rename svrinfo to svrinfo_param;
+BEGIN
+	update datastatistic set svrinfo = svrinfo||svrinfo_param where datatype = datatype_param and 
+        to_char( now(), 'YYYY-MM-DD' ) = to_char( record_t, 'YYYY-MM-DD');
+
+	if FOUND then
+		return 1;
+	end if;
+
+	insert into datastatistic(svrinfo, datatype) values( svrinfo_param, datatype_param);
+	return 0;
+	
+
+end
+$$;
+
+
+ALTER FUNCTION public.update_datastatistic(svrinfo text, datatype character varying) OWNER TO postgres;
+
+--
+-- Name: update_datastatistic_paynum(text, character varying); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION update_datastatistic_paynum(svrinfo text, datatype character varying) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename datatype to datatype_param;
+rename svrinfo to svrinfo_param;
+BEGIN
+        update datastatistic set svrinfo = svrinfo_param where datatype =
+
+datatype_param and
+        date_trunc('day', now()) = date_trunc('day', record_t);
+
+        if FOUND then
+                return 1;
+        end if;
+
+        insert into datastatistic(svrinfo, datatype) values( svrinfo_param,
+
+datatype_param);
+        return 0;
+
+
+end
+$$;
+
+
+ALTER FUNCTION public.update_datastatistic_paynum(svrinfo text, datatype character varying) OWNER TO postgres;
+
+--
+-- Name: update_filter_word(character varying); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION update_filter_word(filter_word character varying) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename filter_word to filter_word_param;
+BEGIN
+	update filter_word_list set failure = '0' where filter_word = filter_word_param;
+	if FOUND then
+		return 1;
+	end if;
+
+	insert into filter_word_list(filter_word, failure) values( filter_word_param, '0');
+	return 0;
+	
+
+end
+$$;
+
+
+ALTER FUNCTION public.update_filter_word(filter_word character varying) OWNER TO postgres;
+
+--
+-- Name: update_online_reward(bigint, integer, integer, integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION update_online_reward(accid bigint, once integer, offtime integer, rewardindex integer, onlinetime integer) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename accid to accid_param;
+rename once to once_param;
+rename offtime  to offtime_param;
+rename rewardindex to rewardindex_param;
+rename onlinetime to onlinetime_param;
+BEGIN
+	update online_reward set once=once_param, offtime=offtime_param, rewardindex=rewardindex_param, onlinetime=onlinetime_param where accid=accid_param;
+
+	if FOUND then
+		return 1;
+	end if;
+
+	insert into online_reward(accid, once, offtime, rewardindex, onlinetime) values(accid_param, once_param, offtime_param, rewardindex_param, onlinetime_param);
+	return 0;
+end
+$$;
+
+
+ALTER FUNCTION public.update_online_reward(accid bigint, once integer, offtime integer, rewardindex integer, onlinetime integer) OWNER TO postgres;
+
+--
+-- Name: update_param(character varying, character varying); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION update_param(key_str character varying, value_str character varying) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename key_str to key_str_param;
+rename value_str to value_str_param;
+BEGIN
+	update server_params set value_str=value_str_param where key_str=key_str_param;
+	if FOUND then
+		return 1;
+	end if;
+	insert into server_params(key_str, value_str) values(key_str_param, value_str_param);
+	return 0;
+end
+$$;
+
+
+ALTER FUNCTION public.update_param(key_str character varying, value_str character varying) OWNER TO postgres;
+
+--
+-- Name: update_patrol(bigint, integer, integer, integer, integer, integer, integer, character varying); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION update_patrol(accid bigint, areapos integer, localpos integer, personpos integer, refreshmoney integer, forcegold integer, refreshcount integer, npclist character varying) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename accid to accid_param;
+rename areapos to areapos_param;
+rename localpos to localpos_param;
+rename personpos to personpos_param;
+rename refreshmoney to refreshmoney_param;
+rename forcegold to forcegold_param;
+rename refreshcount to refreshcount_param;
+rename npclist to npclistz_param;
+BEGIN
+	update patrol set areapos=areapos_param, localpos=localpos_param, personpos=personpos_param, refreshmoney=refreshmoney_param, forcegold=forcegold_param, refreshcount=refreshcount_param, npclist=npclistz_param where accid=accid_param;
+
+	if FOUND then
+		return 1;
+	end if;
+
+	insert into patrol( accid, areapos, localpos, personpos, refreshmoney, forcegold, refreshcount) values(accid_param, areapos_param, localpos_param, personpos_param, refreshmoney_param, forcegold_param, refreshcount_param);
+	return 0;
+	
+
+end
+$$;
+
+
+ALTER FUNCTION public.update_patrol(accid bigint, areapos integer, localpos integer, personpos integer, refreshmoney integer, forcegold integer, refreshcount integer, npclist character varying) OWNER TO postgres;
+
+--
+-- Name: update_reward_activity(bigint, integer, character varying, integer, integer, integer, character varying); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION update_reward_activity(id bigint, act_type integer, name character varying, start_time integer, end_time integer, state integer, reward_info character varying) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename id to id_param;
+rename act_type to act_type_param;
+rename name to name_param;
+rename start_time to start_time_param;
+rename end_time to end_time_param;
+rename state to state_param;
+rename reward_info to reward_info_param;
+
+BEGIN
+	update reward_activity set 
+		name 		= name_param,
+		start_time 	= start_time_param,
+		end_time 	= end_time_param,
+		state 		= state_param,
+		reward_info 	= reward_info_param
+		where id = id_param and act_type = act_type_param;
+	if FOUND then
+		return 1;
+	end if;
+
+	insert into reward_activity (id, act_type, name, start_time, end_time, state, reward_info) 
+		values(id_param, act_type_param, name_param, start_time_param, end_time_param, state_param, reward_info_param);
+	return 0;
+	
+
+end
+$$;
+
+
+ALTER FUNCTION public.update_reward_activity(id bigint, act_type integer, name character varying, start_time integer, end_time integer, state integer, reward_info character varying) OWNER TO postgres;
+
+--
+-- Name: world_area_save(integer, integer, integer, smallint, character varying); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION world_area_save(world_area_id integer, legion_owner_id integer, keep_time integer, is_open smallint, dev_vals character varying) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+declare
+rename  world_area_id to world_area_id_param;
+rename	legion_owner_id	  to legion_owner_id_param;
+rename	keep_time     to keep_time_param;
+rename	is_open	   to is_open_param;
+rename  dev_vals to dev_vals_param;
+BEGIN
+	update worldarea set 
+		legion_owner_id = legion_owner_id_param,
+		keep_time = keep_time_param,
+		is_open = is_open_param,
+		dev_vals = dev_vals_param
+	where world_area_id = world_area_id_param;
+	if FOUND then
+		return 1;
+	end if;
+
+	insert into worldarea(world_area_id, legion_owner_id, keep_time, is_open, dev_vals)
+		values( world_area_id_param, legion_owner_id_param, keep_time_param, is_open_param, dev_vals_param);
+
+	return 1;
+end;
+$$;
+
+
+ALTER FUNCTION public.world_area_save(world_area_id integer, legion_owner_id integer, keep_time integer, is_open smallint, dev_vals character varying) OWNER TO postgres;
+
+--
+-- Name: account_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE account_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.account_id_seq OWNER TO postgres;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: account; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE account (
+    accname character varying(40) NOT NULL,
+    loginname character varying(100) NOT NULL,
+    fcm smallint NOT NULL,
+    prisontime integer DEFAULT 0 NOT NULL,
+    createtime timestamp without time zone DEFAULT now(),
+    last_login_ip character varying(100) DEFAULT ''::character varying,
+    last_login_time integer DEFAULT 0,
+    accid bigint DEFAULT nextval('account_id_seq'::regclass) NOT NULL,
+    source character varying DEFAULT ''::character varying,
+    server_id character varying DEFAULT ''::character varying
+);
+
+
+ALTER TABLE public.account OWNER TO postgres;
+
+--
+-- Name: achievement; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE achievement (
+    acc_id bigint NOT NULL,
+    instance_id integer NOT NULL,
+    cur_score integer DEFAULT 0 NOT NULL,
+    complete_ranktype character varying,
+    challenge_serial character varying,
+    draw_reward_score character varying
+);
+
+
+ALTER TABLE public.achievement OWNER TO postgres;
+
+--
+-- Name: activity_day; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE activity_day (
+    activityindex integer NOT NULL,
+    activitytype integer NOT NULL,
+    starttime bigint DEFAULT 0 NOT NULL,
+    endtime bigint DEFAULT 0 NOT NULL,
+    activityname character varying DEFAULT ''::character varying,
+    activityvalue character varying DEFAULT ''::character varying
+);
+
+
+ALTER TABLE public.activity_day OWNER TO postgres;
+
+--
+-- Name: activity_day_activityindex_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE activity_day_activityindex_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.activity_day_activityindex_seq OWNER TO postgres;
+
+--
+-- Name: activity_day_activityindex_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE activity_day_activityindex_seq OWNED BY activity_day.activityindex;
+
+
+--
+-- Name: activitytime; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE activitytime (
+    id integer NOT NULL,
+    begintime integer,
+    type smallint
+);
+
+
+ALTER TABLE public.activitytime OWNER TO postgres;
+
+--
+-- Name: activitytime_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE activitytime_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.activitytime_id_seq OWNER TO postgres;
+
+--
+-- Name: activitytime_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE activitytime_id_seq OWNED BY activitytime.id;
+
+
+--
+-- Name: broad_msg; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE broad_msg (
+    id integer NOT NULL,
+    duration integer DEFAULT 0,
+    msg_content text DEFAULT ''::text
+);
+
+
+ALTER TABLE public.broad_msg OWNER TO postgres;
+
+--
+-- Name: cdtime; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE cdtime (
+    acc_id bigint NOT NULL,
+    spin_cd_time integer,
+    join_crops_cd_time integer,
+    draft_cd_time integer,
+    occupancy_ginza_cd_time integer,
+    occupancy_farm_cd_time integer,
+    city_farm_cd_time integer,
+    building_cd_time text,
+    plunder_cd_time integer DEFAULT 0,
+    dare_chall_cd_time integer DEFAULT 0
+);
+
+
+ALTER TABLE public.cdtime OWNER TO postgres;
+
+--
+-- Name: challenge_cup; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE challenge_cup (
+    id integer NOT NULL,
+    champion character varying(40) NOT NULL,
+    champion_count integer NOT NULL
+);
+
+
+ALTER TABLE public.challenge_cup OWNER TO postgres;
+
+--
+-- Name: challenge_cup_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE challenge_cup_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.challenge_cup_id_seq OWNER TO postgres;
+
+--
+-- Name: challenge_cup_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE challenge_cup_id_seq OWNED BY challenge_cup.id;
+
+
+--
+-- Name: character; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE "character" (
+    id bigint NOT NULL,
+    area_id integer,
+    seq_no integer,
+    crops_contribute integer,
+    money integer NOT NULL,
+    golden_coins integer,
+    food integer NOT NULL,
+    soldier_num integer NOT NULL,
+    geste integer NOT NULL,
+    honor integer NOT NULL,
+    militory_order integer NOT NULL,
+    vip_lvl integer NOT NULL,
+    build_times integer DEFAULT 0,
+    majesty bigint,
+    handin_money integer,
+    handin_time integer,
+    subordinate text,
+    buildingnums smallint,
+    buildlist smallint,
+    world_area_id smallint,
+    warehouse_num integer NOT NULL,
+    charac_lvl integer,
+    current_instance_id integer,
+    appearance_type smallint,
+    last_logout_time integer,
+    levy_event_id smallint,
+    drill_ground_lvl smallint,
+    cumulate_online_time integer,
+    popularity integer,
+    init_genaral_id integer,
+    tutoriallist text,
+    city text,
+    zn_flag_name character varying,
+    zn_appeance_type smallint,
+    zn_is_refuse_battle boolean,
+    zn_protect_battle_cd integer,
+    zn_msg character varying,
+    forbiddentime integer DEFAULT 0 NOT NULL,
+    freegold integer DEFAULT 0 NOT NULL,
+    charged_cash real DEFAULT 0,
+    main_general_id integer DEFAULT 0,
+    used_tickets text DEFAULT ''::text,
+    chall_best_grade integer DEFAULT (-1),
+    once_owned integer DEFAULT 0,
+    jades_num character varying DEFAULT ''::character varying,
+    last_compensation_id integer DEFAULT 0,
+    speaker_num integer DEFAULT 0,
+    total_online_time integer DEFAULT 0,
+    last_paygold_time integer DEFAULT 0,
+    pay_gold_num integer DEFAULT 0,
+    pay_draw_reward character varying DEFAULT ''::character varying,
+    draw_fest_rwd_day_index integer DEFAULT 0,
+    crops_cur_contribute integer DEFAULT 0,
+    battle_pet_ids character varying DEFAULT ''::character varying
+);
+
+
+ALTER TABLE public."character" OWNER TO postgres;
+
+--
+-- Name: crops; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE crops (
+    id integer NOT NULL,
+    name character varying(60) NOT NULL,
+    ownerid bigint NOT NULL,
+    boardcontent character varying(150),
+    starttime timestamp without time zone,
+    disband_cd integer DEFAULT 0,
+    flag smallint DEFAULT 0,
+    wealth integer DEFAULT 0,
+    taskid smallint DEFAULT 0,
+    experience integer DEFAULT 0,
+    level integer DEFAULT 1
+);
+
+
+ALTER TABLE public.crops OWNER TO postgres;
+
+--
+-- Name: crops_apply_member; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE crops_apply_member (
+    acc_id bigint NOT NULL,
+    crops_id integer NOT NULL
+);
+
+
+ALTER TABLE public.crops_apply_member OWNER TO postgres;
+
+--
+-- Name: crops_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE crops_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.crops_id_seq OWNER TO postgres;
+
+--
+-- Name: crops_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE crops_id_seq OWNED BY crops.id;
+
+
+--
+-- Name: crops_member; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE crops_member (
+    acc_id bigint NOT NULL,
+    positionid integer NOT NULL,
+    jointime timestamp without time zone NOT NULL,
+    crops_id integer NOT NULL
+);
+
+
+ALTER TABLE public.crops_member OWNER TO postgres;
+
+--
+-- Name: crops_technology; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE crops_technology (
+    id integer NOT NULL,
+    techid integer NOT NULL,
+    techlevel integer NOT NULL,
+    costplan integer NOT NULL,
+    crops_id integer NOT NULL
+);
+
+
+ALTER TABLE public.crops_technology OWNER TO postgres;
+
+--
+-- Name: crops_technology_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE crops_technology_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.crops_technology_id_seq OWNER TO postgres;
+
+--
+-- Name: crops_technology_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE crops_technology_id_seq OWNED BY crops_technology.id;
+
+
+--
+-- Name: datastatistic; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE datastatistic (
+    id integer NOT NULL,
+    datatype character(1) NOT NULL,
+    svrinfo text DEFAULT ''::text NOT NULL,
+    record_t timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE public.datastatistic OWNER TO postgres;
+
+--
+-- Name: datastatistic_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE datastatistic_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.datastatistic_id_seq OWNER TO postgres;
+
+--
+-- Name: datastatistic_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE datastatistic_id_seq OWNED BY datastatistic.id;
+
+
+--
+-- Name: equipment; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE equipment (
+    epid bigint NOT NULL,
+    eptemplateid integer NOT NULL,
+    eplevel integer NOT NULL,
+    ep_sub_effect_type integer DEFAULT 0,
+    ep_sub_effect_value integer DEFAULT 0,
+    epownerid bigint NOT NULL,
+    epfighterid integer DEFAULT 0,
+    epexpiretime integer,
+    eptimestamp timestamp with time zone DEFAULT now(),
+    epstate smallint DEFAULT 0,
+    epcreatetime timestamp with time zone DEFAULT now(),
+    unlocktime integer DEFAULT 0,
+    gem_str character varying,
+    petid bigint DEFAULT (-1)
+);
+
+
+ALTER TABLE public.equipment OWNER TO postgres;
+
+--
+-- Name: equipment_epid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE equipment_epid_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.equipment_epid_seq OWNER TO postgres;
+
+--
+-- Name: equipment_epid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE equipment_epid_seq OWNED BY equipment.epid;
+
+
+--
+-- Name: farm; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE farm (
+    acc_id bigint NOT NULL,
+    res_info text
+);
+
+
+ALTER TABLE public.farm OWNER TO postgres;
+
+--
+-- Name: festival; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE festival (
+    id integer NOT NULL,
+    name character varying(100) NOT NULL,
+    picname character varying(100) NOT NULL,
+    starttime character varying(15) NOT NULL,
+    endtime character varying(15) NOT NULL,
+    levyadd integer DEFAULT 0 NOT NULL,
+    gesteadd integer DEFAULT 0 NOT NULL,
+    trainadd integer DEFAULT 0 NOT NULL,
+    state smallint DEFAULT 0 NOT NULL,
+    orderadd integer DEFAULT 0
+);
+
+
+ALTER TABLE public.festival OWNER TO postgres;
+
+--
+-- Name: festival_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE festival_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.festival_id_seq OWNER TO postgres;
+
+--
+-- Name: festival_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE festival_id_seq OWNED BY festival.id;
+
+
+--
+-- Name: filter_word_list; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE filter_word_list (
+    filter_word character varying DEFAULT ''::character varying NOT NULL,
+    failure character varying(1) DEFAULT '0'::character varying NOT NULL
+);
+
+
+ALTER TABLE public.filter_word_list OWNER TO postgres;
+
+--
+-- Name: forbidden_ip; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE forbidden_ip (
+    id integer NOT NULL,
+    ip character varying(20) NOT NULL,
+    lasttime integer DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE public.forbidden_ip OWNER TO postgres;
+
+--
+-- Name: forbidden_ip_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE forbidden_ip_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.forbidden_ip_id_seq OWNER TO postgres;
+
+--
+-- Name: forbidden_ip_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE forbidden_ip_id_seq OWNED BY forbidden_ip.id;
+
+
+--
+-- Name: formation; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE formation (
+    charac_id bigint NOT NULL,
+    formation_id integer NOT NULL,
+    is_default smallint,
+    lvl smallint,
+    genaral_info text
+);
+
+
+ALTER TABLE public.formation OWNER TO postgres;
+
+--
+-- Name: gametime; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE gametime (
+    time_id integer NOT NULL,
+    year integer,
+    season integer
+);
+
+
+ALTER TABLE public.gametime OWNER TO postgres;
+
+--
+-- Name: gametime_time_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE gametime_time_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.gametime_time_id_seq OWNER TO postgres;
+
+--
+-- Name: gametime_time_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE gametime_time_id_seq OWNED BY gametime.time_id;
+
+
+--
+-- Name: general; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE general (
+    owner_id bigint NOT NULL,
+    general_id integer NOT NULL,
+    general_lvl integer,
+    isrecruited smallint,
+    soldier_nums integer,
+    current_exp integer,
+    reincarnation_nums smallint,
+    soldier_id1 integer,
+    soldier_id2 integer,
+    battler_soldier integer,
+    train_time_begin_tick integer,
+    train_over_time integer,
+    train_type smallint,
+    transfer_soldier_nums smallint,
+    rebuild_soldier_id1 integer DEFAULT 0,
+    rebuild_soldier_id2 integer DEFAULT 0,
+    measure_str character varying DEFAULT ''::character varying
+);
+
+
+ALTER TABLE public.general OWNER TO postgres;
+
+--
+-- Name: global_compensation; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE global_compensation (
+    id integer NOT NULL,
+    expire_time integer DEFAULT 0,
+    compensation_str character varying(1000) DEFAULT ''::character varying,
+    comment_str character varying(100) DEFAULT ''::character varying
+);
+
+
+ALTER TABLE public.global_compensation OWNER TO postgres;
+
+--
+-- Name: instance_npc_guide; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE instance_npc_guide (
+    instance_id integer NOT NULL,
+    npc_id integer NOT NULL,
+    npc_battle_rec character varying
+);
+
+
+ALTER TABLE public.instance_npc_guide OWNER TO postgres;
+
+--
+-- Name: instance_progress; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE instance_progress (
+    charac_id bigint NOT NULL,
+    progress character varying,
+    senior_npc_nums character varying,
+    activity_index integer DEFAULT 0
+);
+
+
+ALTER TABLE public.instance_progress OWNER TO postgres;
+
+--
+-- Name: ip_bonus; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE ip_bonus (
+    id integer NOT NULL,
+    mark character varying DEFAULT ''::character varying,
+    ip character varying(100) NOT NULL,
+    starttime timestamp without time zone DEFAULT now() NOT NULL,
+    endtime timestamp without time zone DEFAULT now() NOT NULL,
+    bonusadd character varying DEFAULT ''::character varying
+);
+
+
+ALTER TABLE public.ip_bonus OWNER TO postgres;
+
+--
+-- Name: ip_bonus_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE ip_bonus_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.ip_bonus_id_seq OWNER TO postgres;
+
+--
+-- Name: ip_bonus_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE ip_bonus_id_seq OWNED BY ip_bonus.id;
+
+
+--
+-- Name: item; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE item (
+    accid bigint NOT NULL,
+    materials_str character varying DEFAULT ''::character varying,
+    gemstone_str character varying DEFAULT ''::character varying,
+    prop_str character varying DEFAULT ''::character varying,
+    farm_product_str character varying DEFAULT ''::character varying,
+    ranch_product_str character varying DEFAULT ''::character varying,
+    mine_product_str character varying DEFAULT ''::character varying,
+    workshop_product_str character varying DEFAULT ''::character varying
+);
+
+
+ALTER TABLE public.item OWNER TO postgres;
+
+--
+-- Name: item_undraw; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE item_undraw (
+    id bigint NOT NULL,
+    itemid integer NOT NULL,
+    itemtype smallint NOT NULL,
+    itemcount integer NOT NULL,
+    ownerid bigint NOT NULL,
+    expiretime integer,
+    state smallint DEFAULT 0,
+    createtime timestamp with time zone DEFAULT now(),
+    eptimestamp timestamp with time zone DEFAULT now()
+);
+
+
+ALTER TABLE public.item_undraw OWNER TO postgres;
+
+--
+-- Name: item_undraw_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE item_undraw_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.item_undraw_id_seq OWNER TO postgres;
+
+--
+-- Name: item_undraw_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE item_undraw_id_seq OWNED BY item_undraw.id;
+
+
+--
+-- Name: mail; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE mail (
+    mail_subject character varying(100),
+    mail_type smallint NOT NULL,
+    mail_note character varying,
+    mail_sender bigint NOT NULL,
+    mail_recver bigint NOT NULL,
+    mail_sendtime timestamp without time zone DEFAULT now() NOT NULL,
+    mail_status smallint NOT NULL,
+    mail_autoid bigint NOT NULL,
+    send_name character varying(30),
+    recv_name character varying(30),
+    mail_year integer DEFAULT 0 NOT NULL,
+    mail_time integer DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE public.mail OWNER TO postgres;
+
+--
+-- Name: mail_mail_autoid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE mail_mail_autoid_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.mail_mail_autoid_seq OWNER TO postgres;
+
+--
+-- Name: mail_mail_autoid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE mail_mail_autoid_seq OWNED BY mail.mail_autoid;
+
+
+--
+-- Name: online_reward; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE online_reward (
+    accid bigint NOT NULL,
+    once integer DEFAULT 0 NOT NULL,
+    offtime integer DEFAULT 0 NOT NULL,
+    rewardindex integer DEFAULT 0 NOT NULL,
+    onlinetime integer DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE public.online_reward OWNER TO postgres;
+
+--
+-- Name: patrol; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE patrol (
+    accid bigint NOT NULL,
+    areapos integer DEFAULT 0 NOT NULL,
+    localpos integer DEFAULT 0 NOT NULL,
+    personpos integer DEFAULT 0 NOT NULL,
+    npclist character varying(256) DEFAULT ''::character varying,
+    refreshmoney integer DEFAULT 0 NOT NULL,
+    forcegold integer DEFAULT 0 NOT NULL,
+    refreshcount integer DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE public.patrol OWNER TO postgres;
+
+--
+-- Name: paycard; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE paycard (
+    id integer NOT NULL,
+    cardserial character varying(20) NOT NULL,
+    batch character varying(20) NOT NULL,
+    state smallint NOT NULL,
+    accid bigint DEFAULT 0 NOT NULL,
+    gold integer DEFAULT 0 NOT NULL,
+    money integer DEFAULT 0 NOT NULL,
+    produce_t timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE public.paycard OWNER TO postgres;
+
+--
+-- Name: paycard_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE paycard_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.paycard_id_seq OWNER TO postgres;
+
+--
+-- Name: paycard_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE paycard_id_seq OWNED BY paycard.id;
+
+
+--
+-- Name: paygift; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE paygift (
+    id integer NOT NULL,
+    ticket character varying(50) NOT NULL,
+    batch character varying(50) NOT NULL,
+    state smallint NOT NULL,
+    accid bigint DEFAULT 0 NOT NULL,
+    gold integer DEFAULT 0 NOT NULL,
+    silver integer DEFAULT 0 NOT NULL,
+    credit integer DEFAULT 0 NOT NULL,
+    produce_t timestamp without time zone DEFAULT now() NOT NULL,
+    prefix character varying DEFAULT ''::character varying
+);
+
+
+ALTER TABLE public.paygift OWNER TO postgres;
+
+--
+-- Name: paygift_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE paygift_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.paygift_id_seq OWNER TO postgres;
+
+--
+-- Name: paygift_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE paygift_id_seq OWNED BY paygift.id;
+
+
+--
+-- Name: payorder; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE payorder (
+    id integer NOT NULL,
+    orderid character varying(50) NOT NULL,
+    accid bigint DEFAULT 0 NOT NULL,
+    gold integer DEFAULT 0 NOT NULL,
+    money integer DEFAULT 0 NOT NULL,
+    ordertime timestamp without time zone DEFAULT now() NOT NULL,
+    free_bonus integer DEFAULT 0,
+    comment character varying DEFAULT ''::character varying
+);
+
+
+ALTER TABLE public.payorder OWNER TO postgres;
+
+--
+-- Name: payorder_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE payorder_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.payorder_id_seq OWNER TO postgres;
+
+--
+-- Name: payorder_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE payorder_id_seq OWNED BY payorder.id;
+
+
+--
+-- Name: pet; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE pet (
+    id bigint NOT NULL,
+    xml_id integer NOT NULL,
+    owner_id bigint NOT NULL,
+    general_id integer DEFAULT 0,
+    level integer DEFAULT 1,
+    experience integer DEFAULT 0,
+    skill_str character varying DEFAULT ''::character varying,
+    battle_skill_str character varying DEFAULT ''::character varying,
+    expire_time integer DEFAULT (-1),
+    state smallint DEFAULT 0,
+    "timestamp" timestamp with time zone DEFAULT now(),
+    createtime timestamp with time zone DEFAULT now()
+);
+
+
+ALTER TABLE public.pet OWNER TO postgres;
+
+--
+-- Name: pet_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE pet_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.pet_id_seq OWNER TO postgres;
+
+--
+-- Name: pet_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE pet_id_seq OWNED BY pet.id;
+
+
+--
+-- Name: rank; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE rank (
+    accid bigint NOT NULL,
+    rankvalue integer DEFAULT 0 NOT NULL,
+    ranktype integer DEFAULT 0 NOT NULL,
+    ranktime integer DEFAULT 0
+);
+
+
+ALTER TABLE public.rank OWNER TO postgres;
+
+--
+-- Name: recruite_genaral; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE recruite_genaral (
+    owner_id bigint NOT NULL,
+    genaral_ids character varying
+);
+
+
+ALTER TABLE public.recruite_genaral OWNER TO postgres;
+
+--
+-- Name: res_zone_data; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE res_zone_data (
+    world_area_id integer NOT NULL,
+    area_zone_id smallint NOT NULL,
+    zone_index smallint NOT NULL,
+    owner_id bigint NOT NULL,
+    keep_time integer,
+    plunder_flag smallint DEFAULT 0,
+    plunder_cd_time integer DEFAULT 0,
+    plundered_nums integer DEFAULT 0
+);
+
+
+ALTER TABLE public.res_zone_data OWNER TO postgres;
+
+--
+-- Name: reward_activity; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE reward_activity (
+    id integer NOT NULL,
+    act_type integer NOT NULL,
+    name character varying DEFAULT ''::character varying,
+    start_time integer DEFAULT 0 NOT NULL,
+    end_time integer DEFAULT 0 NOT NULL,
+    state integer DEFAULT 0 NOT NULL,
+    reward_info character varying DEFAULT ''::character varying
+);
+
+
+ALTER TABLE public.reward_activity OWNER TO postgres;
+
+--
+-- Name: reward_activity_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE reward_activity_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.reward_activity_id_seq OWNER TO postgres;
+
+--
+-- Name: reward_activity_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE reward_activity_id_seq OWNED BY reward_activity.id;
+
+
+--
+-- Name: server_params; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE server_params (
+    key_str character varying NOT NULL,
+    value_str character varying DEFAULT ''::character varying
+);
+
+
+ALTER TABLE public.server_params OWNER TO postgres;
+
+--
+-- Name: story_progress; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE story_progress (
+    accid bigint NOT NULL,
+    progress character varying
+);
+
+
+ALTER TABLE public.story_progress OWNER TO postgres;
+
+--
+-- Name: task; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE task (
+    acc_id bigint NOT NULL,
+    completed_main_task text,
+    cur_main_task text,
+    completed_sub_task text,
+    cur_sub_task text,
+    completed_day_task text,
+    cur_day_task text,
+    needs_update smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.task OWNER TO postgres;
+
+--
+-- Name: technology; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE technology (
+    acc_id bigint NOT NULL,
+    techstr character varying
+);
+
+
+ALTER TABLE public.technology OWNER TO postgres;
+
+--
+-- Name: timer_field; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE timer_field (
+    acc_id bigint NOT NULL,
+    crops_contribute_perday integer,
+    is_draw_salary smallint,
+    cumulate_food_num integer,
+    levy_limit_num integer,
+    levy_num integer,
+    force_levy_num integer,
+    gain_goldencoins_num integer,
+    battle_num integer,
+    force_battle_nums integer,
+    free_soldier_num smallint,
+    fram_harvest_num smallint,
+    buy_militory_order_num smallint,
+    is_draw_act_reward smallint,
+    activity_value integer,
+    activity_value_time integer,
+    activity_integral integer,
+    res_gain_num integer DEFAULT 0,
+    free_transfer_soldier integer DEFAULT 0,
+    transfer_soldier_nums integer DEFAULT 0,
+    gold_sudden_nums integer DEFAULT 0,
+    daily_charge_count integer DEFAULT 0,
+    apply_cup_nums smallint DEFAULT 0,
+    attacked_nums smallint DEFAULT 0,
+    reset_time integer DEFAULT 0,
+    plunder_nums integer DEFAULT 0,
+    festival_integal integer DEFAULT 0,
+    festival_gift integer DEFAULT 0,
+    login_reward smallint DEFAULT 0,
+    crops_tech_contribute_perday integer DEFAULT 0,
+    buy_product_nums character varying DEFAULT ''::character varying,
+    day_task_num integer DEFAULT 0
+);
+
+
+ALTER TABLE public.timer_field OWNER TO postgres;
+
+--
+-- Name: whitelist; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE whitelist (
+    id integer NOT NULL,
+    iptype smallint NOT NULL,
+    ip character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.whitelist OWNER TO postgres;
+
+--
+-- Name: whitelist_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE whitelist_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.whitelist_id_seq OWNER TO postgres;
+
+--
+-- Name: whitelist_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE whitelist_id_seq OWNED BY whitelist.id;
+
+
+--
+-- Name: workshop; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE workshop (
+    acc_id bigint NOT NULL,
+    level integer DEFAULT 1,
+    experience integer DEFAULT 0,
+    strength integer DEFAULT 0,
+    purchase_nums integer DEFAULT 0,
+    tutor_state integer DEFAULT 0
+);
+
+
+ALTER TABLE public.workshop OWNER TO postgres;
+
+--
+-- Name: worldarea; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE worldarea (
+    world_area_id integer NOT NULL,
+    legion_owner_id integer,
+    keep_time integer,
+    is_open smallint,
+    dev_vals character varying DEFAULT '10000,10000,10000,10000,10000'::character varying
+);
+
+
+ALTER TABLE public.worldarea OWNER TO postgres;
+
+--
+-- Name: activityindex; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY activity_day ALTER COLUMN activityindex SET DEFAULT nextval('activity_day_activityindex_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY activitytime ALTER COLUMN id SET DEFAULT nextval('activitytime_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY challenge_cup ALTER COLUMN id SET DEFAULT nextval('challenge_cup_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY crops ALTER COLUMN id SET DEFAULT nextval('crops_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY crops_technology ALTER COLUMN id SET DEFAULT nextval('crops_technology_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY datastatistic ALTER COLUMN id SET DEFAULT nextval('datastatistic_id_seq'::regclass);
+
+
+--
+-- Name: epid; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY equipment ALTER COLUMN epid SET DEFAULT nextval('equipment_epid_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY festival ALTER COLUMN id SET DEFAULT nextval('festival_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY forbidden_ip ALTER COLUMN id SET DEFAULT nextval('forbidden_ip_id_seq'::regclass);
+
+
+--
+-- Name: time_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY gametime ALTER COLUMN time_id SET DEFAULT nextval('gametime_time_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY ip_bonus ALTER COLUMN id SET DEFAULT nextval('ip_bonus_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY item_undraw ALTER COLUMN id SET DEFAULT nextval('item_undraw_id_seq'::regclass);
+
+
+--
+-- Name: mail_autoid; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY mail ALTER COLUMN mail_autoid SET DEFAULT nextval('mail_mail_autoid_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY paycard ALTER COLUMN id SET DEFAULT nextval('paycard_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY paygift ALTER COLUMN id SET DEFAULT nextval('paygift_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY payorder ALTER COLUMN id SET DEFAULT nextval('payorder_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY pet ALTER COLUMN id SET DEFAULT nextval('pet_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY reward_activity ALTER COLUMN id SET DEFAULT nextval('reward_activity_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY whitelist ALTER COLUMN id SET DEFAULT nextval('whitelist_id_seq'::regclass);
+
+
+--
+-- Name: broad_msg_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY broad_msg
+    ADD CONSTRAINT broad_msg_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: pk_account; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY account
+    ADD CONSTRAINT pk_account PRIMARY KEY (accid);
+
+
+--
+-- Name: pk_achievement; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY achievement
+    ADD CONSTRAINT pk_achievement PRIMARY KEY (acc_id, instance_id);
+
+
+--
+-- Name: pk_activity_day; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY activity_day
+    ADD CONSTRAINT pk_activity_day PRIMARY KEY (activityindex);
+
+
+--
+-- Name: pk_activitytime; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY activitytime
+    ADD CONSTRAINT pk_activitytime PRIMARY KEY (id);
+
+
+--
+-- Name: pk_cdtime; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY cdtime
+    ADD CONSTRAINT pk_cdtime PRIMARY KEY (acc_id);
+
+
+--
+-- Name: pk_challenge_cup; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY challenge_cup
+    ADD CONSTRAINT pk_challenge_cup PRIMARY KEY (id);
+
+
+--
+-- Name: pk_character; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY "character"
+    ADD CONSTRAINT pk_character PRIMARY KEY (id);
+
+
+--
+-- Name: pk_crops; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY crops
+    ADD CONSTRAINT pk_crops PRIMARY KEY (id);
+
+
+--
+-- Name: pk_crops_apply_member; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY crops_apply_member
+    ADD CONSTRAINT pk_crops_apply_member PRIMARY KEY (acc_id);
+
+
+--
+-- Name: pk_crops_member; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY crops_member
+    ADD CONSTRAINT pk_crops_member PRIMARY KEY (acc_id);
+
+
+--
+-- Name: pk_crops_technology; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY crops_technology
+    ADD CONSTRAINT pk_crops_technology PRIMARY KEY (id);
+
+
+--
+-- Name: pk_datastatistic; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY datastatistic
+    ADD CONSTRAINT pk_datastatistic PRIMARY KEY (id);
+
+
+--
+-- Name: pk_equipment; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY equipment
+    ADD CONSTRAINT pk_equipment PRIMARY KEY (epid);
+
+
+--
+-- Name: pk_farm; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY farm
+    ADD CONSTRAINT pk_farm PRIMARY KEY (acc_id);
+
+
+--
+-- Name: pk_festival; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY festival
+    ADD CONSTRAINT pk_festival PRIMARY KEY (id);
+
+
+--
+-- Name: pk_filter_word_list; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY filter_word_list
+    ADD CONSTRAINT pk_filter_word_list PRIMARY KEY (filter_word);
+
+
+--
+-- Name: pk_forbidden_ip; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY forbidden_ip
+    ADD CONSTRAINT pk_forbidden_ip PRIMARY KEY (id);
+
+
+--
+-- Name: pk_formation; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY formation
+    ADD CONSTRAINT pk_formation PRIMARY KEY (charac_id, formation_id);
+
+
+--
+-- Name: pk_gametime; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY gametime
+    ADD CONSTRAINT pk_gametime PRIMARY KEY (time_id);
+
+
+--
+-- Name: pk_general; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY general
+    ADD CONSTRAINT pk_general PRIMARY KEY (owner_id, general_id);
+
+
+--
+-- Name: pk_global_compensation; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY global_compensation
+    ADD CONSTRAINT pk_global_compensation PRIMARY KEY (id);
+
+
+--
+-- Name: pk_instance_npc_guide; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY instance_npc_guide
+    ADD CONSTRAINT pk_instance_npc_guide PRIMARY KEY (instance_id, npc_id);
+
+
+--
+-- Name: pk_instance_progress; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY instance_progress
+    ADD CONSTRAINT pk_instance_progress PRIMARY KEY (charac_id);
+
+
+--
+-- Name: pk_ip_bonus; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY ip_bonus
+    ADD CONSTRAINT pk_ip_bonus PRIMARY KEY (id);
+
+
+--
+-- Name: pk_item; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY item
+    ADD CONSTRAINT pk_item PRIMARY KEY (accid);
+
+
+--
+-- Name: pk_item_undraw; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY item_undraw
+    ADD CONSTRAINT pk_item_undraw PRIMARY KEY (id);
+
+
+--
+-- Name: pk_mail; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY mail
+    ADD CONSTRAINT pk_mail PRIMARY KEY (mail_autoid);
+
+
+--
+-- Name: pk_online_reward; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY online_reward
+    ADD CONSTRAINT pk_online_reward PRIMARY KEY (accid);
+
+
+--
+-- Name: pk_patrol; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY patrol
+    ADD CONSTRAINT pk_patrol PRIMARY KEY (accid);
+
+
+--
+-- Name: pk_paycard; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY paycard
+    ADD CONSTRAINT pk_paycard PRIMARY KEY (id);
+
+
+--
+-- Name: pk_paygift; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY paygift
+    ADD CONSTRAINT pk_paygift PRIMARY KEY (id);
+
+
+--
+-- Name: pk_payorder; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY payorder
+    ADD CONSTRAINT pk_payorder PRIMARY KEY (id);
+
+
+--
+-- Name: pk_pet; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY pet
+    ADD CONSTRAINT pk_pet PRIMARY KEY (id);
+
+
+--
+-- Name: pk_rank; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY rank
+    ADD CONSTRAINT pk_rank PRIMARY KEY (accid, ranktype);
+
+
+--
+-- Name: pk_recruite_genaral; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY recruite_genaral
+    ADD CONSTRAINT pk_recruite_genaral PRIMARY KEY (owner_id);
+
+
+--
+-- Name: pk_res_zone_data; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY res_zone_data
+    ADD CONSTRAINT pk_res_zone_data PRIMARY KEY (world_area_id, area_zone_id, zone_index);
+
+
+--
+-- Name: pk_reward_activity; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY reward_activity
+    ADD CONSTRAINT pk_reward_activity PRIMARY KEY (id, act_type);
+
+
+--
+-- Name: pk_server_param; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY server_params
+    ADD CONSTRAINT pk_server_param PRIMARY KEY (key_str);
+
+
+--
+-- Name: pk_task; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY task
+    ADD CONSTRAINT pk_task PRIMARY KEY (acc_id);
+
+
+--
+-- Name: pk_timer_field; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY timer_field
+    ADD CONSTRAINT pk_timer_field PRIMARY KEY (acc_id);
+
+
+--
+-- Name: pk_whitelist; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY whitelist
+    ADD CONSTRAINT pk_whitelist PRIMARY KEY (id);
+
+
+--
+-- Name: pk_workshop; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY workshop
+    ADD CONSTRAINT pk_workshop PRIMARY KEY (acc_id);
+
+
+--
+-- Name: pk_worldarea; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY worldarea
+    ADD CONSTRAINT pk_worldarea PRIMARY KEY (world_area_id);
+
+
+--
+-- Name: story_progress_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY story_progress
+    ADD CONSTRAINT story_progress_pkey PRIMARY KEY (accid);
+
+
+--
+-- Name: technology_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY technology
+    ADD CONSTRAINT technology_pkey PRIMARY KEY (acc_id);
+
+
+--
+-- Name: mail_receiver_id_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX mail_receiver_id_idx ON mail USING btree (mail_recver);
+
+
+--
+-- Name: fk_crops_apply_member_crops_apply_member; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY crops_apply_member
+    ADD CONSTRAINT fk_crops_apply_member_crops_apply_member FOREIGN KEY (crops_id) REFERENCES crops(id);
+
+
+--
+-- Name: fk_crops_member_crops_member; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY crops_member
+    ADD CONSTRAINT fk_crops_member_crops_member FOREIGN KEY (crops_id) REFERENCES crops(id);
+
+
+--
+-- Name: fk_crops_technology_crops; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY crops_technology
+    ADD CONSTRAINT fk_crops_technology_crops FOREIGN KEY (crops_id) REFERENCES crops(id);
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
