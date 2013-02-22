@@ -1,6 +1,7 @@
 " auto indent
-set ai
-set smartindent
+"set ai
+"set smartindent
+set cindent
 " show line number
 set number
 " expande tab
@@ -13,9 +14,11 @@ set nofoldenable
 set hlsearch
 " enbale syntax highlight
 syntax on
+" align function arguments
+set cino+=(0
 
 " filter the unwanted files
-let NERDTreeIgnore=['\.o$', 'tags', 'cscope.*']
+let NERDTreeIgnore=['\.o$', '\.lo$', '\.la$', 'tags', 'cscope.*']
 
 " auto launch NERDTree
 function! AutoNERDTree()
@@ -67,3 +70,11 @@ function! ShowFuncName()
     call search("\\%" . lnum . "l" . "\\%" . col . "c")
 endfunction
 map ,f :call ShowFuncName() <CR>
+
+" highlight unwanted spaces
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+autocmd BufWinLeave * call clearmatches()
