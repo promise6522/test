@@ -4,5 +4,10 @@
 cp bashrc ~/.bashrc
 
 # vim
+VIM_CFG_DIR="$HOME/.vim"
+
 cp vimrc ~/.vimrc
-cp vim/* ~/.vim/ -rf
+if [ ! -d $VIM_CFG_DIR ]; then
+    mkdir $VIM_CFG_DIR
+fi
+cp vim/* "$VIM_CFG_DIR/" -rf
