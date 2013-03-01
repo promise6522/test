@@ -78,3 +78,8 @@ autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
 autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 autocmd InsertLeave * match ExtraWhitespace /\s\+$/
 autocmd BufWinLeave * call clearmatches()
+
+" shotcuts for fuzzyfinder
+map ff <esc>:FufFile **/<cr>
+map ft <esc>:FufTag<cr>
+"map <silent> <c-\> :FufTag! <c-r>=expand('<cword>')<cr><cr>
