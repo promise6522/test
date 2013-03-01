@@ -72,8 +72,11 @@ class ProtocolReader(threading.Thread):
     def readByProtocol(self):
         while True:
             response = read(self.sock, 4)
+            if len(response) != 4:
+                print "read data error, exit"
+                break
             size = struct.unpack('I', response)[0]
-#            print "size is: " + str(size)
+            print "packet size is: " + str(size)
             string = read(self.sock, size - 4)
 
             if self.gateReceived:
@@ -88,21 +91,26 @@ class ProtocolReader(threading.Thread):
 #                print "gate received"
                 self.gateReceived = True
 #            print "got a packet of protocol:" + str(protocolNumber)
-            if (protocolNumber in (2704, 2705)):
-                return
+#            if (protocolNumber in (2704, 2705)):
+#                return
             result = []
             if ProtocolReader.s2cProtocolMap.has_key(protocolNumber):
+                print "receive protocol id: " + str(protocolNumber)
                 position = 0
-                for item in ProtocolReader.s2cProtocolMap[protocolNumber]:
-                    #print "process:" + item
-                    result.append(struct.unpack(item, response[position: position + struct.calcsize(item)])[0])
-                    position += struct.calcsize(item)
+                if ProtocolReader.s2cProtocolMap[protocolNumber]:
+                    for item in ProtocolReader.s2cProtocolMap[protocolNumber]:
+                        #print "process:" + item
+                        result.append(struct.unpack(item, response[position: position + struct.calcsize(item)])[0])
+                        position += struct.calcsize(item)
+                else:
+                    #pass the string as a whole arg
+                    result.append(response)
             else:
-                print "unknown protocol"
+                print "unknown protocol id: " + str(protocolNumber)
             if self.processors.has_key(protocolNumber):
                 self.processors[protocolNumber](result)
             else:
-                print "no processor for protocol:" + str(protocolNumber)
+                print "no processor for protocol: " + str(protocolNumber)
 
 
     def registerProcessor(self, protocolNumber, processor):
@@ -156,6 +164,9 @@ class Player:
 
     def getClient(self):
         return self.client
+
+    def registerProcessor(self, protocolNumber, processor):
+        self.client.reader.registerProcessor(protocolNumber, processor)
 
     def initProtocolInfo(self, c2sMap, s2cMap):
         self.client.initProtocol(c2sMap)
