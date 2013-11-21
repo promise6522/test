@@ -1,6 +1,7 @@
 #ifndef __GAME_EVENT_MANAGER
 #define __GAME_EVENT_MANAGER
 
+#include <iostream>
 #include <map>
 #include <vector>
 
@@ -25,7 +26,7 @@ public:
     virtual void call(int eventId, const boost::any& eventData) {
         const DataType* pData = boost::any_cast<DataType>(&eventData);
         if (!pData) {
-            //TODO error handling
+            std::cout << "Callback type doesn't match!" << std::endl;
         } else {
             m_cb(eventId, *pData);
         }
@@ -38,19 +39,27 @@ private:
 class GameEventManager
 {
 public:
-    //template<typename DataType>
-    //void registerEventCallback(int eventId, typename boost::function<void(int, DataType)> cb) {
-    //    m_callbacks[eventId].push_back(new FuncHolder<DataType>(cb));
-    //}
-
-    template<typename CBType>
-    void registerEventCallback(int eventId, CBType cb) {
-        typedef typename CBType::second_argument_type DataType;
+    template<typename DataType>
+    void registerEventCallback(int eventId, typename boost::function<void(int, DataType)> cb) {
         m_callbacks[eventId].push_back(new FuncHolder<DataType>(cb));
     }
 
-    void publishGameEvent(int eventId, const boost::any& eventData) {
-        //TODO
+    //template<typename CBType>
+    //void registerEventCallback(int eventId, CBType cb) {
+    //    typedef typename CBType::second_argument_type DataType;
+    //    m_callbacks[eventId].push_back(new FuncHolder<DataType>(cb));
+    //}
+
+    template<typename DataType>
+    void publishGameEvent(int eventId, const DataType& eventData) {
+        //TODO sync
+        std::map<int, std::vector<BaseFuncHolder*> >::const_iterator it;
+        it = m_callbacks.find(eventId);
+        if (it != m_callbacks.end()) {
+            for (size_t i = 0; i < it->second.size(); ++i) {
+                it->second.at(i)->call(eventId, eventData);
+            }
+        }
     }
 
 private:
@@ -60,12 +69,19 @@ private:
 
 #endif
 
-void event_handler(int eventId, int eventData) {
+class Foo {
+public:
+    int m_data;
+};
+
+void event_handler(int eventId,  const Foo& eventData) {
+    std::cout << "event_handler" << std::endl;
 }
 
 int main() {
     GameEventManager mgr;
-    //TODO try to use this:
-    mgr.registerEventCallback(1, boost::function<void(int, int)>(event_handler));
-    //mgr.registerEventCallback<int>(1, event_handler);
+    mgr.registerEventCallback<Foo>(1, event_handler);
+    //
+    mgr.publishGameEvent(1, 3);
+    mgr.publishGameEvent(1, Foo());
 }
